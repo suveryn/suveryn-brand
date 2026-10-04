@@ -45,7 +45,7 @@ Three families, three distinct jobs, never swapped:
 
 ## Iconography
 
-**Lucide** (MIT license) is the icon library for all UI chrome — navigation, buttons, status indicators. This was decided after a separate design-system export surfaced "Untitled UI" as the apparent icon set in use, which turned out to be a paid, commercially licensed kit with no confirmed rights to reuse outside its original project. What was actually doing the visual work in that export was Lucide, used as a free stand-in because it shares Untitled UI's stroke style — so Lucide became the real, permanently-adopted choice rather than chasing a license Sūveryn never had.
+**Lucide** (ISC license, MIT-compatible; the subset of icons derived from Feather is MIT) is the icon library for all UI chrome — navigation, buttons, status indicators. This was decided after a separate design-system export surfaced "Untitled UI" as the apparent icon set in use, which turned out to be a paid, commercially licensed kit with no confirmed rights to reuse outside its original project. What was actually doing the visual work in that export was Lucide, used as a free stand-in because it shares Untitled UI's stroke style — so Lucide became the real, permanently-adopted choice rather than chasing a license Sūveryn never had. Both licenses are permissive but require the copyright and permission notice to travel with copies, so keep Lucide's license text with any distributed copy of the icons (the site and the chat visual embed several as inline SVG).
 
 The brand mark itself (below) is not from Lucide and is never swapped for a generic icon.
 
