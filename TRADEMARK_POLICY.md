@@ -1,6 +1,6 @@
 # Sūveryn Trademark Policy
 
-**Last updated:** October 2, 2026
+**Last updated:** 2 October 2026
 
 ## 1. What this policy covers
 
@@ -9,9 +9,9 @@ Sūveryn wordmark, logo mark, and associated visual identity (together, the
 "Brand Assets"), are trademarks of Sūveryn Labs Ltd ("we," "us"). This
 policy explains how you may and may not use them.
 
-This policy is separate from, and not affected by, the open source license
-(AGPL-3.0) applied to Sūveryn's source code. **An open source license grants
-rights to the code. It does not grant any license, right, or permission to
+This policy is separate from, and not affected by, the open source licence
+(AGPL-3.0) applied to Sūveryn's source code. **An open source licence grants
+rights to the code. It does not grant any licence, right, or permission to
 use the Sūveryn name, logo, or other Brand Assets.** This mirrors the
 approach taken by Mozilla, WordPress, Blender, and most other open source
 projects with a protected brand.
@@ -22,7 +22,7 @@ projects with a protected brand.
 
 The files in `logo/` and `tokens/` in this repository are made available for
 reference and for uses expressly permitted under Section 3 below. Except as
-permitted there, no license is granted to copy, modify, redistribute, or
+permitted there, no licence is granted to copy, modify, redistribute, or
 create derivative works from these files.
 
 ## 3. Permitted uses — no permission needed
@@ -37,7 +37,7 @@ You may, without asking us first:
   in editorial, news, academic, or review contexts to refer to Sūveryn
   itself (e.g., a blog post comparing AI platforms).
 - Quote our brand guidelines or documentation text under the terms of the
-  separate CC BY 4.0 content license (see `CONTENT_LICENSE`).
+  separate CC BY 4.0 content licence (see `CONTENT_LICENSE`).
 
 ## 4. Uses that require our written permission
 
@@ -56,7 +56,7 @@ To request permission, contact trademark@suveryn.com.
 ## 5. Forks and derivative software
 
 You are free to fork Sūveryn Open's source code under the terms of its
-AGPL-3.0 license. You are not free to call your fork "Sūveryn," "Sūveryn
+AGPL-3.0 licence. You are not free to call your fork "Sūveryn," "Sūveryn
 Open," or a confusingly similar name, or to ship it with our logo or wordmark
 attached. Please choose your own name and identity for a fork and may note,
 factually, that it is "based on Sūveryn Open."
@@ -66,7 +66,7 @@ factually, that it is "based on Sūveryn Open."
 We may update this policy from time to time; material changes will be noted
 with a new "Last updated" date. We reserve the right to revoke permissions
 granted under Section 3 for any party that misuses the Marks, independent of
-any rights that party holds under the AGPL-3.0 license to the underlying
+any rights that party holds under the AGPL-3.0 licence to the underlying
 code.
 
 ## 7. No warranty
