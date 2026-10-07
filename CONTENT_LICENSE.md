@@ -1,8 +1,8 @@
-# Content License
+# Content Licence
 
 ## Scope
 
-This license applies **only** to the written content in this repository:
+This licence applies **only** to the written content in this repository:
 
 - `guidelines/` (the brand book, including `brand-guidelines.md`)
 - `README.md`
@@ -17,10 +17,10 @@ It does **not** apply to:
 
 Those assets remain "all rights reserved," governed by `TRADEMARK_POLICY.md`,
 and are explicitly carved out of the grant below — reusing a Creative
-Commons license for prose does not extend any license to a trademarked logo
+Commons licence for prose does not extend any licence to a trademarked logo
 or wordmark.
 
-## License: CC BY 4.0
+## Licence: CC BY 4.0
 
 The in-scope content listed above is licensed under the **Creative Commons
 Attribution 4.0 International License (CC BY 4.0)**.
@@ -44,7 +44,7 @@ for any purpose, even commercially, as long as you:
 - Indicate if changes were made
 - Do not suggest Sūveryn Labs Ltd endorses you or your use
 
-No additional restrictions may be applied, and nothing in this license
+No additional restrictions may be applied, and nothing in this licence
 narrows the rights CC BY 4.0 itself grants. The full legal text governs in
 case of any conflict with this summary: https://creativecommons.org/licenses/by/4.0/legalcode
 
