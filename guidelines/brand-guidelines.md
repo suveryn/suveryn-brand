@@ -62,12 +62,12 @@ The brand mark itself (below) is not from Lucide and is never swapped for a gene
 
 A rounded square containing a short horizontal bar above a small square — read as a roof over a room, over the premises. Delivered as real asset files, not re-derived:
 
-- `assets/Logos/suveryn-icon.svg` — the full icon, single-ink orange
-- `assets/Logos/suveryn-logotype-dark-bg.svg` — icon + wordmark lockup, for dark surfaces
-- `assets/Logos/suveryn-logotype-light-bg.svg` — icon + wordmark lockup, for light surfaces
-- `assets/Logos/favicon.svg` — the icon tuned for browser-tab sizes (16 to 48px)
-- `assets/Logos/apple-touch-icon.png` — the icon on an opaque dark tile, for iPhone and Android home screens
-- `assets/Logos/suveryn-github-avatar.png` — the icon on a dark tile, 512px, for the GitHub organisation
+- [`logo/suveryn-icon.svg`](../logo/suveryn-icon.svg) — the full icon, single-ink orange
+- [`logo/suveryn-logotype-dark-bg.svg`](../logo/suveryn-logotype-dark-bg.svg) — icon + wordmark lockup, for dark surfaces
+- [`logo/suveryn-logotype-light-bg.svg`](../logo/suveryn-logotype-light-bg.svg) — icon + wordmark lockup, for light surfaces
+- [`logo/favicon.svg`](../logo/favicon.svg) — the icon tuned for browser-tab sizes (16 to 48px)
+- [`logo/apple-touch-icon.png`](../logo/apple-touch-icon.png) — the icon on an opaque dark tile, for iPhone and Android home screens
+- [`logo/suveryn-github-avatar.png`](../logo/suveryn-github-avatar.png) — the icon on a dark tile, 512px, for the GitHub organisation
 
 The favicon and app icons use the same shapes with strokes about 20% heavier, so the bar and the box stay readable at 16px. That optical adjustment is the only permitted change to the mark; never redraw it.
 
@@ -75,7 +75,7 @@ Nav/header usage: 30px icon, 22px wordmark, 12px gap between them — this exact
 
 ## A named interaction pattern: no assistant bubble
 
-The chat interface deliberately does not give the assistant's reply a message bubble — only the user's turn gets one. This is the single most recognisable trait carried over from genuine Claude-style chat interfaces, adopted specifically because it reads as a considered answer sitting on the page rather than a chat-widget reply in a box. The `ChatMessage` component below documents both halves of this pattern; they are not interchangeable, and giving the assistant a bubble "for symmetry" undoes the reason this pattern was chosen.
+The chat interface deliberately does not give the assistant's reply a message bubble — only the user's turn gets one. This is the single most recognisable trait carried over from genuine Claude-style chat interfaces, adopted specifically because it reads as a considered answer sitting on the page rather than a chat-widget reply in a box. The chat interface in [suveryn-core](https://github.com/suveryn/suveryn-core) implements both halves (`UserMessage` and `AssistantMessage` in `packages/chat-ui`); they are not interchangeable, and giving the assistant a bubble "for symmetry" undoes the reason this pattern was chosen.
 
 File attachments belong with the message that introduces them (the user's turn), not retrofitted onto the reply as a citation — a citation and an attachment are different things and should not share one visual treatment.
 
