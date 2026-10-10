@@ -38,11 +38,29 @@ Sūveryn runs two genuinely different surfaces, and the token system is built ar
 - **Dark** is the brand's primary identity — the marketing site, the enterprise-security visual language, the one most people will first see.
 - **Light** is the actual product UI. Chat interfaces are something people read for long stretches; a fully dark app was tested directly against a light one and the light interface won, on readability grounds, independent of brand preference. The product deliberately does not force the marketing site's dark theme onto the thing people work in every day.
 
-Both themes share the same token names and the same accent colours — only the neutrals (bg, surface, text) and the two contrast-sensitive aliases (`on-accent`, `teal-ink`) actually change value between them. See `tokens.json` for the exact values; every colour was checked by direct OKLCH computation, not assumed by eye.
+Both themes share the same token names and the same accent colours — only the neutrals (bg, surface, the text levels) and the contrast-sensitive aliases (`accent-hover`, `accent-ink`, `teal-ink`) change value between them; `on-accent` is `ink` in both. See `tokens.json` for the exact values; every text colour is checked by OKLCH computation (see *Measuring contrast* below), not assumed by eye.
 
 ## The one hard contrast rule
 
-**Never put white text on the accent orange or on teal.** This system's own colour audit measured white-on-accent at 2.88:1 and white-on-teal at 1.66:1 — both fail WCAG AA. Every button, chip and badge in this system uses `on-accent` (an alias to `ink`, the same dark neutral in both themes) for text and icons sitting on an accent-filled surface. This is not a stylistic preference; it's a measured fix for a real contrast failure, and it should not be relitigated per-component.
+**Never put white text on the accent orange or on teal.** Measured the way this system measures contrast (below), white-on-accent is 2.91:1 and white-on-teal 1.93:1 — both fail WCAG AA. Every button, chip and badge in this system uses `on-accent` (an alias to `ink`, the same dark neutral in both themes) for text and icons sitting on an accent-filled surface. This is not a stylistic preference; it's a measured fix for a real contrast failure, and it should not be relitigated per-component.
+
+## Measuring contrast
+
+Contrast is measured from OKLCH lightness: a colour's luminance is taken as L³ (L being its OKLCH/OKLab lightness), and the WCAG ratio (Y₁ + 0.05) / (Y₂ + 0.05) is applied. Translucent colours (the text levels, `line`, washes) are blended onto the surface they sit on first. Thresholds are WCAG AA: **4.5:1 for text**, 3:1 for large text and for UI components such as switch tracks and focus borders.
+
+When a colour fails as text, the fix keeps its hue and lowers (light theme) or raises (dark theme) its OKLCH lightness until every surface it's used on passes, reducing chroma only where sRGB can't show it. That is how the `-ink` tokens are made: `teal-ink` from `teal`, `accent-ink` from `accent`. So **use `accent-ink`, not `accent`, for orange text such as links**; `accent` stays for fills, the mark and active states.
+
+Verified pairs (worst case over bg, surface and surface-alt):
+
+| Token | Light | Dark |
+|---|---|---|
+| `text` | 18.4:1 | 12.8:1 |
+| `text-dim` | 5.8:1 | 6.5:1 |
+| `text-dimmer` | 4.5:1 | 4.5:1 |
+| `accent-ink` | 4.5:1 | 4.8:1 |
+| `teal-ink` (incl. on the 10% teal wash) | 4.5:1 | 7.3:1 |
+| `on-accent` on `accent` / `accent-hover` | 7.1:1 / 5.6:1 | 7.1:1 / 8.3:1 |
+| `control-off` (UI, 3:1) on surface-overlay, dark bg, light bg | ≥ 4.0:1 | ≥ 4.0:1 |
 
 ## Typography
 
