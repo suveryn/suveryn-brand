@@ -8,17 +8,17 @@ This licence applies **only** to the written content in this repository:
 - `README.md`
 - any other documentation or prose text added to this repository
 
-It does **not** apply to:
+It does **not** apply to the following, which each have their own terms:
 
-- the contents of `logo/` (the Sūveryn icon, wordmark, and logotype lockups)
-- the contents of `tokens/` (the design tokens file)
-- the contents of `fonts/` (each font is licensed separately under its own
-  `OFL.txt`, included alongside it)
-
-Those assets remain "all rights reserved," governed by `TRADEMARK_POLICY.md`,
-and are explicitly carved out of the grant below — reusing a Creative
-Commons licence for prose does not extend any licence to a trademarked logo
-or wordmark.
+- the contents of `logo/` (the Sūveryn icon, wordmark, and logotype lockups):
+  all rights reserved, governed by `TRADEMARK_POLICY.md`. Reusing a Creative
+  Commons licence for prose does not extend any licence to a trademarked logo
+  or wordmark;
+- the contents of `tokens/` (the design tokens file): MIT, see
+  `tokens/LICENSE`;
+- the contents of `fonts/`: third-party fonts, each under the SIL Open Font
+  Licence in the `OFL.txt` beside it. Sūveryn Labs Ltd. holds no rights in
+  them.
 
 ## Licence: CC BY 4.0
 
