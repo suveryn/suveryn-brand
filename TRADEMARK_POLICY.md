@@ -1,6 +1,6 @@
 # Sūveryn Trademark Policy
 
-**Last updated:** 2 October 2026
+**Last updated:** 11 October 2026
 
 ## 1. What this policy covers
 
@@ -20,10 +20,15 @@ projects with a protected brand.
 
 © 2026–present Sūveryn Labs Ltd. All rights reserved.
 
-The files in `logo/` and `tokens/` in this repository are made available for
-reference and for uses expressly permitted under Section 3 below. Except as
-permitted there, no licence is granted to copy, modify, redistribute, or
-create derivative works from these files.
+The files in `logo/` in this repository are made available for reference and
+for uses expressly permitted under Section 3 below. Except as permitted
+there, no licence is granted to copy, modify, redistribute, or create
+derivative works from these files.
+
+The design tokens in `tokens/` are licensed separately under the MIT licence
+(`tokens/LICENSE`), so software that uses them, including forks of Sūveryn
+Open, may keep them. That licence covers the token values only; it grants no
+right to the Marks or the logo.
 
 ## 3. Permitted uses — no permission needed
 
