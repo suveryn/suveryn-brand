@@ -10,7 +10,7 @@ This licence applies **only** to the written content in this repository:
 
 It does **not** apply to the following, which each have their own terms:
 
-- the contents of `logo/` (the Sūveryn icon, wordmark, and logotype lockups):
+- the contents of `logo/` (the sūveryn icon, wordmark, and logotype lockups):
   all rights reserved, governed by `TRADEMARK_POLICY.md`. Reusing a Creative
   Commons licence for prose does not extend any licence to a trademarked logo
   or wordmark;
@@ -38,7 +38,7 @@ In short, under CC BY 4.0 you are free to:
 
 for any purpose, even commercially, as long as you:
 
-- **Give appropriate credit** — e.g. "Brand guidelines content from Sūveryn
+- **Give appropriate credit** — e.g. "Brand guidelines content from sūveryn
   (suveryn-brand), licensed under CC BY 4.0," with a link back to this
   repository
 - Indicate if changes were made

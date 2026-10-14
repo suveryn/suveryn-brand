@@ -5,14 +5,14 @@
 ## 1. What this policy covers
 
 "Sūveryn," "Sūveryn Open," and "Sūveryn Enterprise" (the "Marks"), along with the
-Sūveryn wordmark, logo mark, and associated visual identity (together, the
+sūveryn wordmark, logo mark, and associated visual identity (together, the
 "Brand Assets"), are trademarks of Sūveryn Labs Ltd ("we," "us"). This
 policy explains how you may and may not use them.
 
 This policy is separate from, and not affected by, the open source licence
-(AGPL-3.0) applied to Sūveryn's source code. **An open source licence grants
+(AGPL-3.0) applied to sūveryn's source code. **An open source licence grants
 rights to the code. It does not grant any licence, right, or permission to
-use the Sūveryn name, logo, or other Brand Assets.** This mirrors the
+use the sūveryn name, logo, or other Brand Assets.** This mirrors the
 approach taken by Mozilla, WordPress, Blender, and most other open source
 projects with a protected brand.
 
@@ -35,11 +35,11 @@ right to the Marks or the logo.
 You may, without asking us first:
 
 - State factually that your deployment, integration, or fork is "built on
-  Sūveryn Open" or "powered by Sūveryn," provided the statement is accurate
+  Sūveryn Open" or "powered by sūveryn," provided the statement is accurate
   and not presented in a way that implies our endorsement, partnership, or
   certification.
-- Use the unmodified Sūveryn wordmark or logo, at its original proportions,
-  in editorial, news, academic, or review contexts to refer to Sūveryn
+- Use the unmodified sūveryn wordmark or logo, at its original proportions,
+  in editorial, news, academic, or review contexts to refer to sūveryn
   itself (e.g., a blog post comparing AI platforms).
 - Quote our brand guidelines or documentation text under the terms of the
   separate CC BY 4.0 content licence (see `CONTENT_LICENSE`).
@@ -54,14 +54,14 @@ You may, without asking us first:
   listing name.
 - Any use that suggests sponsorship, endorsement, certification, or an
   official partnership that does not exist.
-- Use in advertising, paid search, or comparative marketing naming Sūveryn.
+- Use in advertising, paid search, or comparative marketing naming sūveryn.
 
 To request permission, contact trademark@suveryn.com.
 
 ## 5. Forks and derivative software
 
 You are free to fork Sūveryn Open's source code under the terms of its
-AGPL-3.0 licence. You are not free to call your fork "Sūveryn," "Sūveryn
+AGPL-3.0 licence. You are not free to call your fork "sūveryn," "Sūveryn
 Open," or a confusingly similar name, or to ship it with our logo or wordmark
 attached. Please choose your own name and identity for a fork and may note,
 factually, that it is "based on Sūveryn Open."

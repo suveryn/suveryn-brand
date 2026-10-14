@@ -2,7 +2,7 @@
 
 AI for work that can't leave the premises.
 
-## What Sūveryn is
+## What sūveryn is
 
 Sūveryn is an open-source, on-premise AI platform for organisations that handle confidential data: legal, healthcare, government, financial services. It runs entirely on infrastructure the customer chooses, works fully offline or air-gapped, and never sends documents to the cloud. Sūveryn Labs does not sell hardware — certified partners size, install and support it.
 
@@ -26,7 +26,9 @@ Always write **"premises,"** plural. "Premise" (singular) means an assumption in
 
 - **Tagline:** "AI for work that can't leave the premises." This exact wording everywhere it appears: the website headline and page title, social images, the web manifest, documentation and repository descriptions. No "Private" in front. "Private AI" is fine as a plain descriptor inside a sentence; it is not part of the tagline.
 - **UK English throughout:** organisation, summarise, analyse, colour, grey, licence (the noun; `license` is the verb). Proper names keep their published spelling, such as "Business Source License" and "SIL Open Font License", and so does code, such as the CSS property `color`.
-- **The name:** "Sūveryn", with the macron, in all running text. The wordmark is always lowercase, "sūveryn", set in IBM Plex Mono. Plain "suveryn" appears only where a macron cannot: web addresses, repository and file names, email addresses and identifiers.
+- **The name:** "sūveryn", lowercase and with the macron. A capital S is used in only three cases: at the start of a sentence; in the company name, "Sūveryn Labs" (formally "Sūveryn Labs Ltd"); and in product names, such as "Sūveryn Open" and "Sūveryn Enterprise". Everywhere else, mid-sentence and in headings included, it is written "sūveryn": "Build your own sūveryn appliance", "Is sūveryn open source?". The wordmark is always lowercase, "sūveryn", set in IBM Plex Mono. Plain "suveryn" appears only where a macron cannot: web addresses, repository and file names, email addresses and identifiers.
+  - **Where the name opens a label or a string, it keeps the capital S.** Examples: page titles ("Sūveryn setup · Welcome"), the installer bar ("Sūveryn installer"), email subjects ("Sūveryn: email test"), package descriptions ("Sūveryn engine: …") and the alternative name in the website's search data. The name is the first word in each, so it counts as the start of a sentence. The chat interface's test in suveryn-core checks the same rule.
+  - **"Sūveryn Design System" keeps its capital S**, as a name, like "Sūveryn Labs".
 - **Edition names:** "Sūveryn Open" and "Sūveryn Enterprise". Never "Community" or "Commercial" as edition names.
 - **Terms:** "on-premise" as the adjective (an on-premise platform); "open source" as a noun and "open-source" as an adjective; "air-gapped" as the adjective and "air-gap capable"; "premises" always plural.
 - **Legal entity:** "Sūveryn Labs Ltd" in formal text.
@@ -72,7 +74,7 @@ Three families, three distinct jobs, never swapped:
 
 ## Iconography
 
-**Lucide** (ISC licence, MIT-compatible; the subset of icons derived from Feather is MIT) is the icon library for all UI chrome — navigation, buttons, status indicators. This was decided after a separate design-system export surfaced "Untitled UI" as the apparent icon set in use, which turned out to be a paid, commercially licensed kit with no confirmed rights to reuse outside its original project. What was actually doing the visual work in that export was Lucide, used as a free stand-in because it shares Untitled UI's stroke style — so Lucide became the real, permanently-adopted choice rather than chasing a licence Sūveryn never had. Both licences are permissive but require the copyright and permission notice to travel with copies, so keep Lucide's licence text with any distributed copy of the icons (the site and the chat visual embed several as inline SVG).
+**Lucide** (ISC licence, MIT-compatible; the subset of icons derived from Feather is MIT) is the icon library for all UI chrome — navigation, buttons, status indicators. This was decided after a separate design-system export surfaced "Untitled UI" as the apparent icon set in use, which turned out to be a paid, commercially licensed kit with no confirmed rights to reuse outside its original project. What was actually doing the visual work in that export was Lucide, used as a free stand-in because it shares Untitled UI's stroke style — so Lucide became the real, permanently-adopted choice rather than chasing a licence sūveryn never had. Both licences are permissive but require the copyright and permission notice to travel with copies, so keep Lucide's licence text with any distributed copy of the icons (the site and the chat visual embed several as inline SVG).
 
 The brand mark itself (below) is not from Lucide and is never swapped for a generic icon.
 
