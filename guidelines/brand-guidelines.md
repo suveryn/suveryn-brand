@@ -86,10 +86,13 @@ A rounded square containing a short horizontal bar above a small square — read
 - [`logo/suveryn-logotype-dark-bg.svg`](../logo/suveryn-logotype-dark-bg.svg) — icon + wordmark lockup, for dark surfaces
 - [`logo/suveryn-logotype-light-bg.svg`](../logo/suveryn-logotype-light-bg.svg) — icon + wordmark lockup, for light surfaces
 - [`logo/favicon.svg`](../logo/favicon.svg) — the icon tuned for browser-tab sizes (16 to 48px)
-- [`logo/apple-touch-icon.png`](../logo/apple-touch-icon.png) — the icon on an opaque dark tile, for iPhone and Android home screens
+- [`logo/apple-touch-icon.png`](../logo/apple-touch-icon.png) — the icon in orange on an opaque white tile, 180px, for iPhone and Android home screens
+- [`logo/icon-192.png`](../logo/icon-192.png), [`logo/icon-512.png`](../logo/icon-512.png) — the same, 192 and 512px, for a web app manifest (also as maskable icons: the mark stays inside the safe zone)
 - [`logo/suveryn-github-avatar.png`](../logo/suveryn-github-avatar.png) — the icon on a dark tile, 512px, for the GitHub organisation
 
 The favicon and app icons use the same shapes with strokes about 20% heavier, so the bar and the box stay readable at 16px. That optical adjustment is the only permitted change to the mark; never redraw it.
+
+App icons are orange on white, like the favicon on a light page: Google Search and other places that show a site's icon may pick the largest one offered, so every icon a site offers shows the mark the same way. The dark tile is kept only for the GitHub avatar.
 
 Nav/header usage: 30px icon, 22px wordmark, 12px gap between them — this exact ratio is the live site's own header and should be matched wherever the lockup appears at a comparable scale, not re-proportioned per instance.
 
