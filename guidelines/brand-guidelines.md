@@ -42,6 +42,12 @@ Sūveryn runs two genuinely different surfaces, and the token system is built ar
 
 Both themes share the same token names and the same accent colours — only the neutrals (bg, surface, the text levels) and the contrast-sensitive aliases (`accent-hover`, `accent-ink`, `teal-ink`) change value between them; `on-accent` is `ink` in both. See `tokens.json` for the exact values; every text colour is checked by OKLCH computation (see *Measuring contrast* below), not assumed by eye.
 
+## Colours are written in OKLCH
+
+Since tokens v3 every colour in `tokens.json` is an `oklch()` value (CSS Color 4): lightness 0 to 1, chroma, hue in degrees, and an alpha after `/` for the translucent ones. That is what goes into CSS as it is; browsers have drawn OKLCH since 2023 (Chrome 111, Safari 15.4, Firefox 113), so no fallback is written. Beside each value, `srgb` holds the same colour as sRGB hex (with its alpha), for tools that can't read OKLCH and for anyone used to the old values; it is derived, never the source. The two are kept equal by `tokens/to_oklch.py --check`.
+
+Why OKLCH: it is the space the contrast rule already reasons in. A hover state, a dimmer text level or a wash is now a change of lightness or alpha on the same hue, visibly even across the orange, the teal and the neutrals, and a future dark theme or a new accent is made the same way. Derived colours in product CSS (a wash of the teal, a shadow of the ink) are written as `oklch()` on the token's own lightness, chroma and hue with an alpha, never as a new hex.
+
 ## The one hard contrast rule
 
 **Never put white text on the accent orange or on teal.** Measured the way this system measures contrast (below), white-on-accent is 2.91:1 and white-on-teal 1.93:1 — both fail WCAG AA. Every button, chip and badge in this system uses `on-accent` (an alias to `ink`, the same dark neutral in both themes) for text and icons sitting on an accent-filled surface. This is not a stylistic preference; it's a measured fix for a real contrast failure, and it should not be relitigated per-component.
