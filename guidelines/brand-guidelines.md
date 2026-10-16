@@ -44,7 +44,7 @@ Both themes share the same token names and the same accent colours — only the 
 
 ## Colours are written in OKLCH
 
-Since tokens v3 every colour in `tokens.json` is an `oklch()` value (CSS Color 4): lightness 0 to 1, chroma, hue in degrees, and an alpha after `/` for the translucent ones. That is what goes into CSS as it is; browsers have drawn OKLCH since 2023 (Chrome 111, Safari 15.4, Firefox 113), so no fallback is written. Beside each value, `srgb` holds the same colour as sRGB hex (with its alpha), for tools that can't read OKLCH and for anyone used to the old values; it is derived, never the source. The two are kept equal by `tokens/to_oklch.py --check`.
+Since tokens v3 every colour in `tokens.json` is an `oklch()` value (and since v3.1 every value comes from the rules in `tokens/palette.py`, see *The palette's rules* below) (CSS Color 4): lightness 0 to 1, chroma, hue in degrees, and an alpha after `/` for the translucent ones. That is what goes into CSS as it is; browsers have drawn OKLCH since 2023 (Chrome 111, Safari 15.4, Firefox 113), so no fallback is written. Beside each value, `srgb` holds the same colour as sRGB hex (with its alpha), for tools that can't read OKLCH and for anyone used to the old values; it is derived, never the source. The two are kept equal by `tokens/to_oklch.py --check`.
 
 Why OKLCH: it is the space the contrast rule already reasons in. A hover state, a dimmer text level or a wash is now a change of lightness or alpha on the same hue, visibly even across the orange, the teal and the neutrals, and a future dark theme or a new accent is made the same way. Derived colours in product CSS (a wash of the teal, a shadow of the ink) are written as `oklch()` on the token's own lightness, chroma and hue with an alpha, never as a new hex.
 
@@ -58,17 +58,27 @@ Contrast is measured from OKLCH lightness: a colour's luminance is taken as L³ 
 
 When a colour fails as text, the fix keeps its hue and lowers (light theme) or raises (dark theme) its OKLCH lightness until every surface it's used on passes, reducing chroma only where sRGB can't show it. That is how the `-ink` tokens are made: `teal-ink` from `teal`, `accent-ink` from `accent`. So **use `accent-ink`, not `accent`, for orange text such as links**; `accent` stays for fills, the mark and active states.
 
-Verified pairs (worst case over bg, surface and surface-alt):
+Verified pairs (worst case over bg, surface and surface-alt), by this measure and by WCAG's own sRGB formula (the smaller of the two; `tokens/palette.py` prints both for every pair):
 
 | Token | Light | Dark |
 |---|---|---|
-| `text` | 18.4:1 | 12.8:1 |
+| `text` | 18.2:1 | 12.8:1 |
 | `text-dim` | 5.8:1 | 6.5:1 |
 | `text-dimmer` | 4.5:1 | 4.5:1 |
-| `accent-ink` | 4.5:1 | 4.8:1 |
-| `teal-ink` (incl. on the 10% teal wash) | 4.5:1 | 7.3:1 |
-| `on-accent` on `accent` / `accent-hover` | 7.1:1 / 5.6:1 | 7.1:1 / 8.3:1 |
-| `control-off` (UI, 3:1) on surface-overlay, dark bg, light bg | ≥ 4.0:1 | ≥ 4.0:1 |
+| `accent-ink` | 4.7:1 | 4.8:1 |
+| `teal-ink` (incl. on the 10% teal wash) | 4.6:1 | 7.3:1 |
+| `on-accent` on `accent` / `accent-hover` | 6.5:1 / 5.1:1 | 6.5:1 / 7.8:1 |
+| `control-off` (UI, 3:1) on surface-overlay, dark bg, light bg | ≥ 3.9:1 | ≥ 3.4:1 |
+
+## The palette's rules (tokens v3.1)
+
+Since v3.1 no colour in `tokens.json` is picked by hand: `tokens/palette.py` holds the rules and writes every value, and `--check` fails when the file and the rules disagree.
+
+- **One neutral hue.** Every grey, from the ink to the white surfaces, sits on 258°, the hue of the dark surfaces (the brand's identity surface), at a small chroma. Before v3.1 the greys ranged from 245° to 286°, so a dimmed ink next to a control looked like greys from different sets.
+- **Even lightness steps per theme.** Light surfaces at L 1.000, 0.980 and 0.955; dark surfaces at 0.160, 0.205 and 0.290; the ink at 0.090, the dark text at 0.967. The dim text levels stay alphas of the text, so they follow whatever surface they sit on.
+- **States are lightness offsets on the family's hue.** The accent is L 0.677 at 34.6°; its hover is −0.06 on light surfaces and +0.045 on dark ones; as text (`accent-ink`) it is −0.15 on light surfaces and +0.02 on dark ones. The teal is L 0.790 at 188.4°; as text it is −0.27 on light surfaces. Chroma is the base's, reduced only where sRGB can't show it. A future second accent is made the same way.
+
+Changing a rule changes every colour it governs, consistently; that is the point of writing the palette in OKLCH.
 
 ## Typography
 
