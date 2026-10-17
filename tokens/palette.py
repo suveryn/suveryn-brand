@@ -1,7 +1,8 @@
-"""The colour palette as rules (tokens v3.1): one neutral hue, even lightness steps, hover and ink
-states as fixed lightness offsets on the family's hue. Writes the ``value`` and ``srgb`` of every
-colour token in tokens/tokens.json from these rules, and reports the contrast of the pairs the
-guidelines verify. Run from the brand repository root:
+"""The palette and the type scale as rules (tokens v3.2): one neutral hue, even lightness steps,
+hover, ink and boundary states as fixed lightness offsets on the family's hue; and the text styles
+every surface may use, each a name with a size, line height and weight. Writes the ``value`` and
+``srgb`` of every colour token and the ``type.groups`` styles in tokens/tokens.json from these
+rules, and reports the contrast of the pairs the guidelines verify. Run from the repository root:
 
     python3 tokens/palette.py            write tokens.json and print the contrast table
     python3 tokens/palette.py --check    exit 1 if tokens.json differs from the rules, or a pair fails
@@ -48,6 +49,48 @@ HOVER_LIGHT, HOVER_DARK = -0.060, +0.045   # darker on light surfaces, lighter o
 INK_OFFSET = {"accent": -0.150, "teal": -0.270}  # as text on light surfaces: holds 4.5:1 on every surface, both measures
 INK_DARK_OFFSET = {"accent": +0.020}                 # as text on dark surfaces: the accent itself is 4.44:1 on surface by WCAG
 INK_CHROMA = {"accent": 0.191, "teal": 0.093}    # sRGB can't show the full chroma at that lightness
+# The teal as a UI boundary (the focus ring, the border of a focused field): 3:1 on every light
+# surface. On dark surfaces the teal itself holds it.
+BOUNDARY_OFFSET = {"teal": -0.218}
+BOUNDARY_CHROMA = {"teal": 0.097}
+
+# ---------------------------------------------------------------- the type scale (v3.2)
+# Every text style a surface may use: (group, size px, line height, weight, extras). Before v3.2
+# the brand named seven styles and the chat UI, the setup page, the login page and the website
+# each filled the gaps on their own (eighteen sizes in the chat UI, fourteen on the site); these
+# are the styles those surfaces turned out to need, named once. A surface uses these and nothing else.
+TYPE_SCALE = {
+    "h1":          ("Display", "48px", "1.1", 600, {}),
+    "h2":          ("Display", "28px", "1.2", 600, {}),
+    "title":       ("Display", "22px", "1.2", 600, {}),
+    "subtitle":    ("Display", "18px", "1.3", 600, {}),
+    "h3":          ("Display", "15px", "1.3", 600, {}),
+    "body":        ("Body", "15px", "1.6", 400, {}),
+    "control":     ("Body", "14.5px", "1.2", 600, {}),
+    "ui":          ("Body", "14.5px", "1.4", 400, {}),
+    "body-sm":     ("Body", "13.5px", "1.55", 400, {}),
+    "ui-sm":       ("Body", "13px", "1.5", 400, {}),
+    "caption":     ("Body", "12px", "1.5", 400, {}),
+    "label":       ("Body", "11px", "1.3", 600, {"letterSpacing": "0.04em"}),
+    "wordmark":    ("Wordmark", "22px", "1", 500, {}),
+    "wordmark-lg": ("Wordmark", "32px", "1", 500, {}),
+}
+TYPE_USAGE = {
+    "h1": "Hero and page headlines. Scales with clamp(34px, 5.4vw, 54px) on the live site; 48px is the desktop reference size.",
+    "h2": "Section headings, on the site and in the product (an empty case's name, the sign-in page's title at full width).",
+    "title": "Page and dialog titles in the product (Administration, Usage, a dialog's heading), the setup page's title, the login page's title, the edition cards' names, a key figure in a totals row.",
+    "subtitle": "Card and step titles that need more than h3: the site's how-it-works steps and callout values, the FAQ questions.",
+    "h3": "Small card titles, chat and conversation titles, component labels.",
+    "body": "Default running text: paragraphs on the site, the composer, a field's text, an empty state's introduction.",
+    "control": "Buttons, tab buttons, navigation links, the titles of rows, cards and options: the text of something you act on.",
+    "ui": "Compact UI text at the control's size without its weight: status rows, the login page's fields, nav links.",
+    "body-sm": "Secondary body text: chat messages, card copy, dialog text, notices, small buttons and inputs, a tab in the product.",
+    "ui-sm": "Dense secondary UI text: hints and errors under a field, table cells, menu items and select buttons, the access log, chart tables.",
+    "caption": "Fine print, disclaimers, timestamps, metadata under a title, chart legends and axes, text buttons in a list.",
+    "label": "Section labels and eyebrow text, set in uppercase in use; also the citation marker in an answer.",
+    "wordmark": "The sūveryn wordmark at header scale, next to a 30px mark with a 12px gap. IBM Plex Mono is reserved for this one use: never body copy, never UI labels (originally JetBrains Mono; switched for slightly more open spacing at small sizes).",
+    "wordmark-lg": "The wordmark as a hero, on the appliance's setup page (26px below 480px). Never elsewhere.",
+}
 
 # ---------------------------------------------------------------- OKLab (Björn Ottosson), sRGB
 def _lin(c): return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
@@ -124,7 +167,18 @@ def palette() -> dict[str, dict[str, dict]]:
     tL, tC = TEAL
     p["teal"] = {t: colour(tL, tC, TEAL_HUE) for t in ("light", "dark")}
     p["teal-ink"] = {"light": colour(tL + INK_OFFSET["teal"], INK_CHROMA["teal"], TEAL_HUE), "dark": colour(tL, tC, TEAL_HUE)}
+    p["focus"] = {"light": colour(tL + BOUNDARY_OFFSET["teal"], BOUNDARY_CHROMA["teal"], TEAL_HUE), "dark": colour(tL, tC, TEAL_HUE)}
     return p
+
+
+def type_groups(existing: list[dict]) -> list[dict]:
+    """``type.groups`` from TYPE_SCALE, keeping the family each group names in the file."""
+    families = {g["name"]: g["family"] for g in existing}
+    groups: dict[str, list] = {}
+    for name, (group, size, lh, weight, extra) in TYPE_SCALE.items():
+        style = {"name": name, "fontSize": size, "lineHeight": lh, "fontWeight": weight, **extra, "usage": TYPE_USAGE[name]}
+        groups.setdefault(group, []).append(style)
+    return [{"name": g, "family": families.get(g, g.lower()), "styles": styles} for g, styles in groups.items()]
 
 
 # ---------------------------------------------------------------- contrast, both ways
@@ -157,6 +211,7 @@ PAIRS = [
     ("teal-ink", "bg", 4.5), ("teal-ink", "surface", 4.5), ("teal-ink", "surface-alt", 4.5), ("teal-ink", "wash", 4.5),
     ("ink", "accent", 4.5), ("ink", "accent-hover", 4.5), ("ink", "teal", 4.5),
     ("control-off", "surface-overlay", 3.0), ("control-off", "bg", 3.0), ("control-off", "surface", 3.0),
+    ("focus", "bg", 3.0), ("focus", "surface", 3.0), ("focus", "surface-alt", 3.0),
 ]
 
 
@@ -197,15 +252,37 @@ def main() -> None:
                     token.setdefault("srgb", {})[theme] = c["srgb"]
                 elif "srgb" in token:
                     del token["srgb"]
+    want_groups = type_groups(data["type"]["groups"])
+    if check:
+        have = {s["name"]: {k: v for k, v in s.items() if k != "usage"} for g in data["type"]["groups"] for s in g["styles"]}
+        want = {s["name"]: {k: v for k, v in s.items() if k != "usage"} for g in want_groups for s in g["styles"]}
+        for name in sorted(set(have) | set(want)):
+            if have.get(name) != want.get(name):
+                problems.append(f"type style {name}: {have.get(name)} is not the rule's {want.get(name)}")
+    else:
+        data["type"]["groups"] = want_groups
+        if "focus" not in {t["name"] for t in data["color"]["tokens"]}:
+            data["color"]["tokens"].append({"name": "focus", "value": {}, "usage": (
+                "Focus rings and the border of a focused field: the teal as a UI boundary. Darkened on light "
+                "surfaces so it holds the 3:1 non-text contrast on bg, surface and surface-alt (the teal's "
+                "lightness minus 0.218, tokens v3.2); the teal itself on dark surfaces. Was a literal in the "
+                "chat UI's CSS, copied by the login theme and the site; one token since v3.2.")})
+            for token in data["color"]["tokens"]:
+                if token["name"] == "focus":
+                    for theme in ("light", "dark"):
+                        token["value"][theme] = p["focus"][theme]["value"]
+                        token.setdefault("srgb", {})[theme] = p["focus"][theme]["srgb"]
     rows = contrast_table(p)
     for theme, fg, bg, need, by_l, by_wcag in rows:
         if min(by_l, by_wcag) < need:
             problems.append(f"{theme}: {fg} on {bg} is {by_l:.2f}:1 (OKLCH) / {by_wcag:.2f}:1 (WCAG), needs {need}:1")
     if not check:
-        data["version"] = "3.1"
-        data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover and "
-                              "ink states as fixed lightness offsets on the accent's and the teal's hue; "
+        data["version"] = "3.2"
+        data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover, "
+                              "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue; "
                               "every colour here is written by that script, not by hand.")
+        data["typeRules"] = ("tokens/palette.py TYPE_SCALE: the text styles every surface may use, by name; a "
+                             "surface uses these and nothing else. Written by the script, not by hand.")
         TOKENS.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
         print(f"{'theme':5} {'text':12} {'on':16} {'need':>5} {'OKLCH':>7} {'WCAG':>7}")
         for theme, fg, bg, need, by_l, by_wcag in rows:
