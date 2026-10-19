@@ -53,6 +53,11 @@ INK_CHROMA = {"accent": 0.191, "teal": 0.093}    # sRGB can't show the full chro
 # surface. On dark surfaces the teal itself holds it.
 BOUNDARY_OFFSET = {"teal": -0.218}
 BOUNDARY_CHROMA = {"teal": 0.097}
+# The case surface (tokens v3.3): the background of a conversation inside a case, so the person sees
+# they are working in a case and not in a personal conversation. A neutral surface's lightness with a
+# little of the teal's chroma on the teal's hue: light at the surface's 0.980, dark at surface-alt's
+# 0.205, so every text pair that holds on those holds here too (checked below).
+CASE_SURFACE = {"light": (0.980, 0.014), "dark": (0.205, 0.014)}
 
 # ---------------------------------------------------------------- the type scale (v3.2)
 # Every text style a surface may use: (group, size px, line height, weight, extras). Before v3.2
@@ -168,6 +173,7 @@ def palette() -> dict[str, dict[str, dict]]:
     p["teal"] = {t: colour(tL, tC, TEAL_HUE) for t in ("light", "dark")}
     p["teal-ink"] = {"light": colour(tL + INK_OFFSET["teal"], INK_CHROMA["teal"], TEAL_HUE), "dark": colour(tL, tC, TEAL_HUE)}
     p["focus"] = {"light": colour(tL + BOUNDARY_OFFSET["teal"], BOUNDARY_CHROMA["teal"], TEAL_HUE), "dark": colour(tL, tC, TEAL_HUE)}
+    p["case-surface"] = {t: colour(L, C, TEAL_HUE) for t, (L, C) in CASE_SURFACE.items()}
     return p
 
 
@@ -212,6 +218,8 @@ PAIRS = [
     ("ink", "accent", 4.5), ("ink", "accent-hover", 4.5), ("ink", "teal", 4.5),
     ("control-off", "surface-overlay", 3.0), ("control-off", "bg", 3.0), ("control-off", "surface", 3.0),
     ("focus", "bg", 3.0), ("focus", "surface", 3.0), ("focus", "surface-alt", 3.0),
+    ("text", "case-surface", 4.5), ("text-dim", "case-surface", 4.5), ("text-dimmer", "case-surface", 4.5),
+    ("accent-ink", "case-surface", 4.5), ("teal-ink", "case-surface", 4.5), ("focus", "case-surface", 3.0),
 ]
 
 
@@ -272,14 +280,27 @@ def main() -> None:
                     for theme in ("light", "dark"):
                         token["value"][theme] = p["focus"][theme]["value"]
                         token.setdefault("srgb", {})[theme] = p["focus"][theme]["srgb"]
+        if "case-surface" not in {t["name"] for t in data["color"]["tokens"]}:
+            data["color"]["tokens"].append({"name": "case-surface", "value": {}, "usage": (
+                "The background of a conversation inside a case (the pane and its header), so a person sees "
+                "at a glance that they work in a case, with its documents and colleagues, and not in a "
+                "personal conversation. The surface's lightness (light) or surface-alt's (dark) with a little "
+                "of the teal's chroma on the teal's hue (tokens v3.3), so every text colour that holds on "
+                "those holds here. Never a fill for controls, never behind personal conversations.")})
+            for token in data["color"]["tokens"]:
+                if token["name"] == "case-surface":
+                    for theme in ("light", "dark"):
+                        token["value"][theme] = p["case-surface"][theme]["value"]
+                        token.setdefault("srgb", {})[theme] = p["case-surface"][theme]["srgb"]
     rows = contrast_table(p)
     for theme, fg, bg, need, by_l, by_wcag in rows:
         if min(by_l, by_wcag) < need:
             problems.append(f"{theme}: {fg} on {bg} is {by_l:.2f}:1 (OKLCH) / {by_wcag:.2f}:1 (WCAG), needs {need}:1")
     if not check:
-        data["version"] = "3.2"
+        data["version"] = "3.3"
         data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover, "
-                              "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue; "
+                              "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue, the case "
+                              "surface a neutral lightness on the teal's hue; "
                               "every colour here is written by that script, not by hand.")
         data["typeRules"] = ("tokens/palette.py TYPE_SCALE: the text styles every surface may use, by name; a "
                              "surface uses these and nothing else. Written by the script, not by hand.")
