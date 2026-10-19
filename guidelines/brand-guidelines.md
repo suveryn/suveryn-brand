@@ -81,6 +81,20 @@ Since v3.1 no colour in `tokens.json` is picked by hand: `tokens/palette.py` hol
 
 Changing a rule changes every colour it governs, consistently; that is the point of writing the palette in OKLCH.
 
+## Where the teal goes (tokens v3.3)
+
+The orange means *act*. The teal means *the system vouches for this*: where an answer comes from and that it was checked. In the product UI it is used for exactly these, and nothing else:
+
+- the assistant's mark;
+- citation markers in an answer, and the cited passage marked in the source panel;
+- a playbook's coverage ("Gedekt");
+- the focus ring and the border of a focused field (`focus`);
+- `case-surface`, the background of a conversation inside a case.
+
+People are not the system: avatars are ink initials on `surface-alt` with a `line` border, never teal. Statuses ("ready", "confirmed"), filters, progress bars, the reasoning indicator and chips are ink and neutral surfaces. A colour that marks everything marks nothing.
+
+`case-surface` sits at the surface's lightness (light) or surface-alt's (dark) with a little of the teal's chroma on the teal's hue, so every text colour that holds on those surfaces holds on it too; `tokens/palette.py` checks the pairs. It is a background only: never a fill for controls, never behind a personal conversation.
+
 ## Typography
 
 Three families, three distinct jobs, never swapped:
