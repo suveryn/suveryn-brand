@@ -152,7 +152,7 @@ Nav/header usage: 30px icon, 22px wordmark, 12px gap between them — this exact
 
 ## A named interaction pattern: no assistant bubble
 
-The chat interface deliberately does not give the assistant's reply a message bubble — only the user's turn gets one. This is the single most recognisable trait carried over from genuine Claude-style chat interfaces, adopted specifically because it reads as a considered answer sitting on the page rather than a chat-widget reply in a box. The chat interface in [suveryn-core](https://github.com/suveryn/suveryn-core) implements both halves (`UserMessage` and `AssistantMessage` in `packages/chat-ui`); they are not interchangeable, and giving the assistant a bubble "for symmetry" undoes the reason this pattern was chosen.
+The chat interface deliberately does not give the assistant's reply a message bubble — only the user's turn gets one. This is the interface's most recognisable trait, chosen because it reads as a considered answer sitting on the page rather than a chat-widget reply in a box. The chat interface in [suveryn-core](https://github.com/suveryn/suveryn-core) implements both halves (`UserMessage` and `AssistantMessage` in `packages/chat-ui`); they are not interchangeable, and giving the assistant a bubble "for symmetry" undoes the reason this pattern was chosen.
 
 File attachments belong with the message that introduces them (the user's turn), not retrofitted onto the reply as a citation — a citation and an attachment are different things and should not share one visual treatment.
 
