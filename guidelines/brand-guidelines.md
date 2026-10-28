@@ -70,6 +70,8 @@ Verified pairs (worst case over bg, surface and surface-alt), by this measure an
 | `on-accent` on `accent` / `accent-hover` | 6.5:1 / 5.1:1 | 6.5:1 / 7.8:1 |
 | `control-off` (UI, 3:1) on surface-overlay, dark bg, light bg | ≥ 3.9:1 | ≥ 3.4:1 |
 | `focus` (UI, 3:1) on bg, surface, surface-alt | ≥ 3.7:1 | ≥ 7.3:1 |
+| `confidential` as text, on bg, surface, surface-alt | 7.4:1 | 6.1:1 |
+| `on-confidential` on `confidential` | 8.5:1 | 9.0:1 |
 
 ## The palette's rules (tokens v3.1)
 
@@ -81,17 +83,49 @@ Since v3.1 no colour in `tokens.json` is picked by hand: `tokens/palette.py` hol
 
 Changing a rule changes every colour it governs, consistently; that is the point of writing the palette in OKLCH.
 
-## Where the teal goes (tokens v3.3)
+## What each colour means (tokens v3.4)
 
-The orange means *act*. The teal means *the system vouches for this*: where an answer comes from and that it was checked. In the product UI it is used for exactly these, and nothing else:
+Three colours carry meaning in the product, each one thing; everything else is ink on neutral surfaces. A colour that marks everything marks nothing.
+
+### The orange: act
+
+- one filled primary button per view (`accent`, text in `on-accent`), *New*, and send;
+- text actions in `accent-ink`: links and the verbs you click in a line of text ("Check now", "Remove", "Copy", "Undo", "try again").
+
+Quiet controls stay ink: secondary outline buttons, icon buttons, row menus, switches, tabs. Navigation is never orange: the active tab is underlined in ink, the active item of a side menu has an ink bar and bold text, the current conversation an ink dot.
+
+### The teal: a system status
+
+The teal means *the system vouches for this or is doing it*. In the product UI it is used for exactly these, and nothing else:
 
 - the assistant's mark;
 - citation markers in an answer, and the cited passage marked in the source panel;
 - a playbook's coverage ("Gedekt");
+- system statuses that are good: working, enough space, ready, confirmed, reachable, a checked signature, a loaded model, a backup made, a passed key test, a step that is done; as `teal-ink` text with a check;
+- the progress of system work: progress bars (`teal` fill) and spinners;
 - the focus ring and the border of a focused field (`focus`);
 - `case-surface`, the background of a conversation inside a case.
 
-People are not the system: avatars are ink initials on `surface-alt` with a `line` border, never teal. Statuses ("ready", "confirmed"), filters, progress bars, the reasoning indicator and chips are ink and neutral surfaces. A colour that marks everything marks nothing.
+A check icon always means such a status. It is never a bullet (a list of steps is numbered) and never sits on a setting: "Administrator: Yes" or "Account: On" is plain ink text, because a person set it and the system doesn't vouch for it. People are not the system either: avatars are ink initials on `surface-alt` with a `line` border, never teal. Filters, chips and the reasoning indicator are ink and neutral surfaces.
+
+Warnings and errors are ink with their own icon (triangle, cross, circle-alert). The brand has no red and no yellow; nothing blocks unless the action is impossible.
+
+### Notices
+
+One notice box everywhere: `surface-alt` in the light theme and `surface` in the dark theme (one step lighter than both the page and a dialog, which sits on `surface-alt` there), with a `line` border, radius 8, the icon on the left, `body-sm` text. The icon and the colour of the text carry the meaning (`teal-ink` for a good system status, ink otherwise), never the box: no white variant, no heavier border for an error.
+
+### The violet: strictly confidential, and the first chart series
+
+Violet is the second brand colour, on the hue 300°, for two things only:
+
+- `confidential`: the band above a strictly confidential case, its `folder-key` icon and its label in lists and filters. The band's text is `on-confidential` (white in the light theme, the ink in the dark one). Never alone: the icon and the words carry the meaning. Chosen on 27 October 2026 over night blue, aubergine, raspberry, ochre and ink.
+- `chart-1`, the first chart series, in the same family.
+
+### The chart palette
+
+Charts use four series colours of their own, always in this order, and nothing else uses them: `chart-1` violet, `chart-2` ochre, `chart-3` sky blue, `chart-4` moss green. They were chosen for colour-blind separation in both themes. Ochre on white is about 2.2:1, so every chart has a legend and *Show table*, and the series are never told apart by colour alone. A fifth series becomes "Other". `tokens/palette.py` prints their contrast against the page for information; it doesn't enforce it.
+
+### The case surface
 
 `case-surface` sits at the surface's lightness (light) or surface-alt's (dark) with a little of the teal's chroma on the teal's hue, so every text colour that holds on those surfaces holds on it too; `tokens/palette.py` checks the pairs. It is a background only: never a fill for controls, never behind a personal conversation.
 
