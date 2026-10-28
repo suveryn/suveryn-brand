@@ -1,4 +1,4 @@
-"""The palette and the type scale as rules (tokens v3.2): one neutral hue, even lightness steps,
+"""The palette and the type scale as rules (tokens v3.4): one neutral hue, even lightness steps,
 hover, ink and boundary states as fixed lightness offsets on the family's hue; and the text styles
 every surface may use, each a name with a size, line height and weight. Writes the ``value`` and
 ``srgb`` of every colour token and the ``type.groups`` styles in tokens/tokens.json from these
@@ -23,6 +23,7 @@ TOKENS = HERE / "tokens.json"
 NEUTRAL_HUE = 258.0      # the dark surfaces' hue, the brand's identity surface; every grey sits on it
 ACCENT_HUE = 34.6        # the orange
 TEAL_HUE = 188.4         # the teal
+VIOLET_HUE = 300.0       # the second brand colour (v3.4): strictly confidential, and the first chart series
 
 # (lightness, chroma) per neutral, light and dark theme. Light surfaces step 1.000, 0.980, 0.955;
 # dark surfaces 0.160, 0.205, 0.290: even steps within each theme.
@@ -58,6 +59,37 @@ BOUNDARY_CHROMA = {"teal": 0.097}
 # little of the teal's chroma on the teal's hue: light at the surface's 0.980, dark at surface-alt's
 # 0.205, so every text pair that holds on those holds here too (checked below).
 CASE_SURFACE = {"light": (0.980, 0.014), "dark": (0.205, 0.014)}
+# Strictly confidential (tokens v3.4): the band above a strictly confidential case, its key icon and
+# its label. Dark enough in the light theme for white text, light enough in the dark theme for the ink,
+# and as text itself it holds 4.5:1 on every surface. Never alone: the icon and the words are always there.
+CONFIDENTIAL = {"light": (0.420, 0.150), "dark": (0.750, 0.120)}
+ON_CONFIDENTIAL = {"light": "bg", "dark": "ink"}   # white on the light band, the ink on the dark one
+# The chart palette (tokens v3.4): four series colours, always in this order, used by charts and by
+# nothing else. Violet, ochre, sky blue, moss green: chosen for colour-blind separation in both themes,
+# with no red and no yellow-green next to each other. Ochre on white is about 2.2:1, so every chart
+# carries a legend and a "Show table"; the series are never told apart by colour alone. (L, C, hue).
+CHARTS = {
+    "chart-1": {"light": (0.520, 0.160, VIOLET_HUE), "dark": (0.580, 0.160, VIOLET_HUE)},
+    "chart-2": {"light": (0.760, 0.140, 82.0),       "dark": (0.660, 0.140, 82.0)},
+    "chart-3": {"light": (0.620, 0.120, 230.0),      "dark": (0.640, 0.120, 230.0)},
+    "chart-4": {"light": (0.620, 0.130, 150.0),      "dark": (0.630, 0.130, 150.0)},
+}
+# Tokens added after v3.1, with their usage, appended to tokens.json when missing.
+NEW_TOKENS = {
+    "confidential": (
+        "Strictly confidential, and only that (tokens v3.4): the band above a strictly confidential case, "
+        "its folder-key icon and its label in lists and filters. Text on the band is on-confidential. As "
+        "text or an icon it holds 4.5:1 on bg, surface and surface-alt in both themes. Never alone: the "
+        "icon and the words carry the meaning, the colour supports them."),
+    "on-confidential": (
+        "Text and icons on a confidential fill: white (bg) in the light theme, the ink in the dark theme "
+        "(tokens v3.4)."),
+    "chart-1": "First chart series (tokens v3.4). The same violet family as confidential. Charts only.",
+    "chart-2": ("Second chart series: ochre (tokens v3.4). About 2.2:1 on white, so a chart always has a "
+                "legend and Show table. Charts only."),
+    "chart-3": "Third chart series: sky blue (tokens v3.4). Charts only.",
+    "chart-4": "Fourth chart series: moss green (tokens v3.4). A fifth series becomes Other. Charts only.",
+}
 
 # ---------------------------------------------------------------- the type scale (v3.2)
 # Every text style a surface may use: (group, size px, line height, weight, extras). Before v3.2
@@ -174,6 +206,10 @@ def palette() -> dict[str, dict[str, dict]]:
     p["teal-ink"] = {"light": colour(tL + INK_OFFSET["teal"], INK_CHROMA["teal"], TEAL_HUE), "dark": colour(tL, tC, TEAL_HUE)}
     p["focus"] = {"light": colour(tL + BOUNDARY_OFFSET["teal"], BOUNDARY_CHROMA["teal"], TEAL_HUE), "dark": colour(tL, tC, TEAL_HUE)}
     p["case-surface"] = {t: colour(L, C, TEAL_HUE) for t, (L, C) in CASE_SURFACE.items()}
+    p["confidential"] = {t: colour(L, C, VIOLET_HUE) for t, (L, C) in CONFIDENTIAL.items()}
+    p["on-confidential"] = {t: {"alias": a} for t, a in ON_CONFIDENTIAL.items()}
+    for name, themes in CHARTS.items():
+        p[name] = {t: colour(L, C, H) for t, (L, C, H) in themes.items()}
     return p
 
 
@@ -220,14 +256,21 @@ PAIRS = [
     ("focus", "bg", 3.0), ("focus", "surface", 3.0), ("focus", "surface-alt", 3.0),
     ("text", "case-surface", 4.5), ("text-dim", "case-surface", 4.5), ("text-dimmer", "case-surface", 4.5),
     ("accent-ink", "case-surface", 4.5), ("teal-ink", "case-surface", 4.5), ("focus", "case-surface", 3.0),
+    ("on-confidential", "confidential", 4.5),
+    ("confidential", "bg", 4.5), ("confidential", "surface", 4.5), ("confidential", "surface-alt", 4.5),
 ]
+# Reported, not enforced: the chart series against the page. Charts never rely on colour alone
+# (legend, Show table), so these are informative; the guidelines say which are weak.
+CHART_PAIRS = [(c, bg, 3.0) for c in CHARTS for bg in ("bg", "surface")]
 
 
-def contrast_table(p):
+def contrast_table(p, pairs=None):
     rows = []
     for theme in ("light", "dark"):
-        for fg, bg, need in PAIRS:
+        for fg, bg, need in (PAIRS if pairs is None else pairs):
             f = p[fg][theme]
+            if "alias" in f:
+                f = p[f["alias"]][theme]
             if bg == "wash":
                 teal = p["teal"][theme]
                 bg_rgb = blend({**teal, "alpha": 0.10}, p["bg"][theme])
@@ -292,21 +335,39 @@ def main() -> None:
                     for theme in ("light", "dark"):
                         token["value"][theme] = p["case-surface"][theme]["value"]
                         token.setdefault("srgb", {})[theme] = p["case-surface"][theme]["srgb"]
+    if not check:
+        names = {t["name"] for t in data["color"]["tokens"]}
+        for name, usage in NEW_TOKENS.items():
+            if name in names:
+                continue
+            token = {"name": name, "value": {}, "usage": usage}
+            for theme in ("light", "dark"):
+                c = p[name][theme]
+                token["value"][theme] = f"{{{c['alias']}}}" if "alias" in c else c["value"]
+                if "alias" not in c:
+                    token.setdefault("srgb", {})[theme] = c["srgb"]
+            data["color"]["tokens"].append(token)
+    elif missing := [n for n in NEW_TOKENS if n not in {t["name"] for t in data["color"]["tokens"]}]:
+        problems.extend(f"{n}: missing from tokens.json" for n in missing)
     rows = contrast_table(p)
     for theme, fg, bg, need, by_l, by_wcag in rows:
         if min(by_l, by_wcag) < need:
             problems.append(f"{theme}: {fg} on {bg} is {by_l:.2f}:1 (OKLCH) / {by_wcag:.2f}:1 (WCAG), needs {need}:1")
     if not check:
-        data["version"] = "3.3"
+        data["version"] = "3.4"
         data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover, "
                               "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue, the case "
-                              "surface a neutral lightness on the teal's hue; "
+                              "surface a neutral lightness on the teal's hue, the violet (confidential, chart-1) on 300° and the "
+                              "four chart series fixed; "
                               "every colour here is written by that script, not by hand.")
         data["typeRules"] = ("tokens/palette.py TYPE_SCALE: the text styles every surface may use, by name; a "
                              "surface uses these and nothing else. Written by the script, not by hand.")
         TOKENS.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
         print(f"{'theme':5} {'text':12} {'on':16} {'need':>5} {'OKLCH':>7} {'WCAG':>7}")
         for theme, fg, bg, need, by_l, by_wcag in rows:
+            print(f"{theme:5} {fg:12} {bg:16} {need:>5} {by_l:>7.2f} {by_wcag:>7.2f}")
+        print("\nchart series, informative (legend and Show table always present):")
+        for theme, fg, bg, need, by_l, by_wcag in contrast_table(p, CHART_PAIRS):
             print(f"{theme:5} {fg:12} {bg:16} {need:>5} {by_l:>7.2f} {by_wcag:>7.2f}")
     for problem in problems:
         print(problem, file=sys.stderr)
