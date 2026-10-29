@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tokens:
+    name: tokens.json stays in sync with the generator
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate tokens.json
+        run: python tokens/palette.py
+
+      - name: Fail if the committed tokens.json is stale
+        run: git diff --exit-code tokens/tokens.json
