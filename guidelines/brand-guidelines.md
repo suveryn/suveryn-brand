@@ -166,6 +166,33 @@ In CSS the styles are variables generated from the tokens (`--text-body`, `--tex
 
 The brand mark itself (below) is not from Lucide and is never swapped for a generic icon.
 
+### Overlay icons (tokens v3.5)
+
+A small icon over the corner of another says one thing about it: the system speaks for a playbook, a
+person is an administrator or manages a case, a conversation was shared. Every overlay follows one rule, so they read
+as one family wherever they appear. The sizes are the `badge` group in `tokens.json`, written by
+`tokens/palette.py` from `BADGES` and checked by `--check`.
+
+| Token | On | Badge | Outside the corner | Stroke |
+|---|---|---|---|---|
+| `badge-icon` | an icon or the brand mark, 14 to 20 px | 12 px | 5 px | 2.5 |
+| `badge-avatar-sm` | a small avatar, 24 px | 13 px | 5 px | 2.5 |
+| `badge-avatar` | an avatar, 32 px | 15 px | 6 px | 2.25 |
+| `badge-avatar-lg` | a large avatar, 48 px | 19 px | 8 px | 2 |
+| `badge-avatar-xl` | a very large avatar, 96 px | 28 px | 11 px | 2 |
+
+- **One size per host, never a share of it.** On a larger host the badge is relatively smaller: it is a
+  marker, not a scaled copy, and it never becomes unreadable.
+- **The icon fills its box.** No disc, ring or fill, and no icon drawn smaller inside its box.
+- **40 % outside the corner**, right and bottom.
+- **Colour by meaning**: `teal-ink` when the system signals something (a playbook speaking); `text` for a role or ownership (administrator, case manager, the owner of a
+  shared conversation).
+- **The one exception: a photo.** On an avatar with a picture, the icon gets a 1 px outline in the
+  surface colour, or its line disappears into the photo. On a plain surface that outline is invisible,
+  so the badge still reads bare.
+- **The icons**, from Lucide: `route` for a running playbook (on the brand mark), `shield` for an
+  administrator, `folder` for a case manager, `message-square` for the owner of a shared conversation.
+
 ## The brand mark
 
 A rounded square containing a short horizontal bar above a small square — read as a roof over a room, over the premises. Delivered as real asset files, not re-derived:

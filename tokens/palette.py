@@ -1,4 +1,4 @@
-"""The palette and the type scale as rules (tokens v3.4): one neutral hue, even lightness steps,
+"""The palette, the type scale and the overlay icons as rules (tokens v3.5): one neutral hue, even lightness steps,
 hover, ink and boundary states as fixed lightness offsets on the family's hue; and the text styles
 every surface may use, each a name with a size, line height and weight. Writes the ``value`` and
 ``srgb`` of every colour token and the ``type.groups`` styles in tokens/tokens.json from these
@@ -128,6 +128,35 @@ TYPE_USAGE = {
     "wordmark": "The sūveryn wordmark at header scale, next to a 30px mark with a 12px gap. IBM Plex Mono is reserved for this one use: never body copy, never UI labels (originally JetBrains Mono; switched for slightly more open spacing at small sizes).",
     "wordmark-lg": "The wordmark as a hero, on the appliance's setup page (26px below 480px). Never elsewhere.",
 }
+
+# ---------------------------------------------------------------- overlay icons (v3.5)
+# A small icon over the corner of another (a badge): one fixed size per size of what it sits on, not a
+# share of it, so it stays a marker and never becomes unreadable. The icon fills its box; no disc, ring
+# or fill; 40 % of the badge sits outside the corner, right and bottom. (name, host px, badge px, stroke)
+BADGES = [
+    ("badge-icon", "14-20px", 12, 2.5),
+    ("badge-avatar-sm", "24px", 13, 2.5),
+    ("badge-avatar", "32px", 15, 2.25),
+    ("badge-avatar-lg", "48px", 19, 2),
+    ("badge-avatar-xl", "96px", 28, 2),
+]
+BADGE_OUTSIDE = 0.40
+BADGE_USAGE = {
+    "badge-icon": "On an icon or the brand mark (14 to 20 px): a playbook speaking.",
+    "badge-avatar-sm": "On a small avatar (24 px): member stacks, table rows.",
+    "badge-avatar": "On an avatar (32 px): the account row, lists.",
+    "badge-avatar-lg": "On a large avatar (48 px): settings, the members dialog.",
+    "badge-avatar-xl": "On a very large avatar (96 px): the picture dialog.",
+}
+
+
+def badge_group() -> dict:
+    return {"rules": ("tokens/palette.py BADGES: one size per host, the icon fills its box, no disc, ring or fill, "
+                      f"{round(BADGE_OUTSIDE * 100)} % outside the corner. Colour by meaning: teal-ink when the system "
+                      "signals something, text for a role or ownership. On a photo, a 1 px outline in the surface colour."),
+            "tokens": [{"name": n, "host": host, "size": f"{px}px", "offset": f"-{round(px * BADGE_OUTSIDE)}px",
+                        "strokeWidth": sw, "usage": BADGE_USAGE[n]} for n, host, px, sw in BADGES]}
+
 
 # ---------------------------------------------------------------- OKLab (Björn Ottosson), sRGB
 def _lin(c): return c / 12.92 if c <= 0.04045 else ((c + 0.055) / 1.055) ** 2.4
@@ -305,6 +334,11 @@ def main() -> None:
                     del token["srgb"]
     want_groups = type_groups(data["type"]["groups"])
     if check:
+        if data.get("badge") != badge_group():
+            problems.append("badge: tokens.json differs from BADGES")
+    else:
+        data["badge"] = badge_group()
+    if check:
         have = {s["name"]: {k: v for k, v in s.items() if k != "usage"} for g in data["type"]["groups"] for s in g["styles"]}
         want = {s["name"]: {k: v for k, v in s.items() if k != "usage"} for g in want_groups for s in g["styles"]}
         for name in sorted(set(have) | set(want)):
@@ -354,7 +388,7 @@ def main() -> None:
         if min(by_l, by_wcag) < need:
             problems.append(f"{theme}: {fg} on {bg} is {by_l:.2f}:1 (OKLCH) / {by_wcag:.2f}:1 (WCAG), needs {need}:1")
     if not check:
-        data["version"] = "3.4"
+        data["version"] = "3.5"
         data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover, "
                               "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue, the case "
                               "surface a neutral lightness on the teal's hue, the violet (confidential, chart-1) on 300° and the "
