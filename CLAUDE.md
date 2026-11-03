@@ -12,7 +12,6 @@ Start with [guidelines/brand-guidelines.md](guidelines/brand-guidelines.md). For
 - **Two themes differ on purpose**: dark is the brand and marketing identity; light is the product UI.
 - **Version the tokens** (`v3.4` at 28 October 2026) and say in the guidelines what each colour means. A consumer re-syncs by moving its pin; a token change is not finished until the consumers' pins can move without breaking their tests.
 - **Icons are Lucide**, for every product, with the overlay icons the guidelines define (*Iconography*); a new overlay is added here first, with its rule. The brand mark is never swapped for an icon.
-- **One branch and PR per change.** Merge only when the founder says so. A coding agent never pushes: it delivers a patch, applied in a separate worktree, as *Start here* says.
 - **Copy:** the guidelines' *Wording and spelling* is the one source for every repository's copy rules; the other repositories point to it, so a rule changes here. IBM Plex Mono is for the wordmark only.
 
 ## Verify
