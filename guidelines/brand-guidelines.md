@@ -73,12 +73,12 @@ Verified pairs (worst case over bg, surface and surface-alt), by this measure an
 | `teal-ink` (incl. on the 10% teal wash) | 4.6:1 | 7.3:1 |
 | `on-accent` on `accent` / `accent-hover` | 6.5:1 / 5.1:1 | 6.5:1 / 7.8:1 |
 | `control-off` (UI, 3:1) on surface-overlay, dark bg, light bg | ≥ 3.9:1 | ≥ 3.4:1 |
-| `focus` (UI, 3:1) on bg, surface, surface-alt | ≥ 3.7:1 | ≥ 7.3:1 |
+| `focus` (UI, 3:1) on bg, surface (v3.7) | ≥ 3.0:1 | ≥ 7.3:1 |
 | `confidential` as text, on bg, surface, surface-alt | 7.4:1 | 6.1:1 |
 | `on-confidential` on `confidential` | 8.5:1 | 9.0:1 |
 | `text-dimmer` on `band` (a table's header and footer) | 4.6:1 | 5.0:1 |
 | `text-dimmer`, `accent-ink`, `teal-ink` on `row-hover` | ≥ 4.5:1 | ≥ 4.8:1 |
-| `focus` (UI, 3:1) on `band`, `row-hover` | ≥ 3.8:1 | ≥ 8.3:1 |
+| `focus` (UI, 3:1) on `band`, `case-surface` | ≥ 3.0:1 | ≥ 9.3:1 |
 
 ## The palette's rules (tokens v3.1)
 
@@ -86,11 +86,11 @@ Since v3.1 no colour in `tokens.json` is picked by hand: `tokens/palette.py` hol
 
 - **One neutral hue.** Every grey, from the ink to the white surfaces, sits on 258°, the hue of the dark surfaces (the brand's identity surface), at a small chroma. Before v3.1 the greys ranged from 245° to 286°, so a dimmed ink next to a control looked like greys from different sets.
 - **Even lightness steps per theme.** Light surfaces at L 1.000, 0.980 and 0.955; dark surfaces at 0.160, 0.205 and 0.290; the ink at 0.090, the dark text at 0.967. The dim text levels stay alphas of the text, so they follow whatever surface they sit on.
-- **States are lightness offsets on the family's hue.** The accent is L 0.677 at 34.6°; its hover is −0.06 on light surfaces and +0.045 on dark ones; as text (`accent-ink`) it is −0.15 on light surfaces and +0.02 on dark ones. The teal is L 0.790 at 188.4°; as text it is −0.27 on light surfaces, and as a UI boundary (`focus`, since v3.2: the focus ring and the border of a focused field) −0.218, which holds the 3:1 non-text contrast on every light surface. Chroma is the base's, reduced only where sRGB can't show it. A future second accent is made the same way.
+- **States are lightness offsets on the family's hue.** The accent is L 0.677 at 34.6°; its hover is −0.06 on light surfaces and +0.045 on dark ones; as text (`accent-ink`) it is −0.15 on light surfaces and +0.02 on dark ones. The teal is L 0.790 at 188.4°; as text it is −0.27 on light surfaces, and as a UI boundary (`focus`, since v3.2: the focus line and the border of a focused field) −0.15 at chroma 0.11 (since v3.7; −0.218 before), which holds the 3:1 non-text contrast on `bg`, `surface`, `band` and `case-surface`. On `surface-alt`, and on an orange or teal fill, the focus gets a 2 px gap in `bg` between the control and its line, so the line holds against the gap. Chroma is the base's, reduced only where sRGB can't show it. A future second accent is made the same way.
 
 Changing a rule changes every colour it governs, consistently; that is the point of writing the palette in OKLCH.
 
-## What each colour means (tokens v3.6)
+## What each colour means (tokens v3.7)
 
 Three colours carry meaning in the product, each one thing; everything else is ink on neutral surfaces. A colour that marks everything marks nothing, and the interface keeps as few colours as it can: a new use of a colour fits this table, or the table changes first.
 
@@ -120,7 +120,7 @@ The teal means *the system vouches for this or is doing it*. In the product UI i
 - a playbook's coverage ("Gedekt");
 - system statuses that are good: working, enough space, ready, confirmed, reachable, a checked signature, a loaded model, a backup made, a passed key test, a step that is done; as `teal-ink` text with a check;
 - the progress of system work: progress bars (`teal` fill) and spinners;
-- the focus ring and the border of a focused field (`focus`);
+- keyboard focus (`focus`): the field's look on every control, a 1 px line with a soft 3 px glow; with a 2 px gap in `bg` on an orange or teal fill and on `surface-alt`, so the dark teal never touches orange or teal;
 - `case-surface`, the background of a conversation inside a case.
 
 A check icon always means such a status. It is never a bullet (a list of steps is numbered) and never sits on a setting: "Administrator: Yes" or "Account: On" is plain ink text, because a person set it and the system doesn't vouch for it. People are not the system either: avatars are ink initials on `surface-alt` with a `line` border, never teal. Filters, chips and the reasoning indicator are ink and neutral surfaces.

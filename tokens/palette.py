@@ -1,4 +1,4 @@
-"""The palette, the type scale and the overlay icons as rules (tokens v3.6): one neutral hue, even lightness steps,
+"""The palette, the type scale and the overlay icons as rules (tokens v3.7): one neutral hue, even lightness steps,
 hover, ink and boundary states as fixed lightness offsets on the family's hue; and the text styles
 every surface may use, each a name with a size, line height and weight. Writes the ``value`` and
 ``srgb`` of every colour token and the ``type.groups`` styles in tokens/tokens.json from these
@@ -50,10 +50,13 @@ HOVER_LIGHT, HOVER_DARK = -0.060, +0.045   # darker on light surfaces, lighter o
 INK_OFFSET = {"accent": -0.150, "teal": -0.270}  # as text on light surfaces: holds 4.5:1 on every surface, both measures
 INK_DARK_OFFSET = {"accent": +0.020}                 # as text on dark surfaces: the accent itself is 4.44:1 on surface by WCAG
 INK_CHROMA = {"accent": 0.191, "teal": 0.093}    # sRGB can't show the full chroma at that lightness
-# The teal as a UI boundary (the focus ring, the border of a focused field): 3:1 on every light
-# surface. On dark surfaces the teal itself holds it.
-BOUNDARY_OFFSET = {"teal": -0.218}
-BOUNDARY_CHROMA = {"teal": 0.097}
+# The teal as a UI boundary (the focus line, the border of a focused field). Lighter since v3.7 (Filip,
+# 6 November 2026, from Claude Design's 0.66): the lightest that holds 3:1 by both measures on bg and
+# surface, where pages, cards and dialogs sit, and on case-surface. On surface-alt and on an orange or
+# teal fill it doesn't, so there the focus has a 2 px gap in bg between the control and the line, and
+# the line holds against the gap. On dark surfaces the teal itself holds everywhere.
+BOUNDARY_OFFSET = {"teal": -0.150}
+BOUNDARY_CHROMA = {"teal": 0.110}
 # The case surface (tokens v3.3): the background of a conversation inside a case, so the person sees
 # they are working in a case and not in a personal conversation. A neutral surface's lightness with a
 # little of the teal's chroma on the teal's hue: light at the surface's 0.980, dark at surface-alt's
@@ -296,14 +299,14 @@ PAIRS = [
     ("teal-ink", "bg", 4.5), ("teal-ink", "surface", 4.5), ("teal-ink", "surface-alt", 4.5), ("teal-ink", "wash", 4.5),
     ("ink", "accent", 4.5), ("ink", "accent-hover", 4.5), ("ink", "teal", 4.5),
     ("control-off", "surface-overlay", 3.0), ("control-off", "bg", 3.0), ("control-off", "surface", 3.0),
-    ("focus", "bg", 3.0), ("focus", "surface", 3.0), ("focus", "surface-alt", 3.0),
+    ("focus", "bg", 3.0), ("focus", "surface", 3.0),
     ("text", "case-surface", 4.5), ("text-dim", "case-surface", 4.5), ("text-dimmer", "case-surface", 4.5),
     ("accent-ink", "case-surface", 4.5), ("teal-ink", "case-surface", 4.5), ("focus", "case-surface", 3.0),
     ("on-confidential", "confidential", 4.5),
     ("confidential", "bg", 4.5), ("confidential", "surface", 4.5), ("confidential", "surface-alt", 4.5),
     ("text", "band", 4.5), ("text-dim", "band", 4.5), ("text-dimmer", "band", 4.5), ("focus", "band", 3.0),
     ("text", "row-hover", 4.5), ("text-dim", "row-hover", 4.5), ("text-dimmer", "row-hover", 4.5),
-    ("accent-ink", "row-hover", 4.5), ("teal-ink", "row-hover", 4.5), ("focus", "row-hover", 3.0),
+    ("accent-ink", "row-hover", 4.5), ("teal-ink", "row-hover", 4.5),
 ]
 # Reported, not enforced: the chart series against the page. Charts never rely on colour alone
 # (legend, Show table), so these are informative; the guidelines say which are weak.
@@ -407,7 +410,7 @@ def main() -> None:
         if min(by_l, by_wcag) < need:
             problems.append(f"{theme}: {fg} on {bg} is {by_l:.2f}:1 (OKLCH) / {by_wcag:.2f}:1 (WCAG), needs {need}:1")
     if not check:
-        data["version"] = "3.6"
+        data["version"] = "3.7"
         data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover, "
                               "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue, the case "
                               "surface a neutral lightness on the teal's hue, the violet (confidential, chart-1) on 300° and the "
