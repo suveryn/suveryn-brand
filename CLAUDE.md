@@ -10,7 +10,7 @@ Start with [guidelines/brand-guidelines.md](guidelines/brand-guidelines.md). For
 - **Every text colour passes 4.5:1**, measured from OKLCH lightness. Never white text on the accent orange or teal: use `on-accent`.
 - **A new size or colour is added to the brand first**, with its rule, then used in a product. Core's chat UI and the appliance's theme copy this repository at a pinned commit and fail tests on a drift or a literal.
 - **Two themes differ on purpose**: dark is the brand and marketing identity; light is the product UI.
-- **Version the tokens** (`v3.6` at 6 November 2026) and say in the guidelines what each colour means. A consumer re-syncs by moving its pin; a token change is not finished until the consumers' pins can move without breaking their tests.
+- **Version the tokens** (`v3.7` at 6 November 2026) and say in the guidelines what each colour means. A consumer re-syncs by moving its pin; a token change is not finished until the consumers' pins can move without breaking their tests.
 - **Icons are Lucide**, for every product, with the overlay icons the guidelines define (*Iconography*); a new overlay is added here first, with its rule. The brand mark is never swapped for an icon.
 - **Copy:** the guidelines' *Wording and spelling* is the one source for every repository's copy rules; the other repositories point to it, so a rule changes here. IBM Plex Mono is for the wordmark only.
 
