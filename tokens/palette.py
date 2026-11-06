@@ -1,4 +1,4 @@
-"""The palette, the type scale and the overlay icons as rules (tokens v3.5): one neutral hue, even lightness steps,
+"""The palette, the type scale and the overlay icons as rules (tokens v3.6): one neutral hue, even lightness steps,
 hover, ink and boundary states as fixed lightness offsets on the family's hue; and the text styles
 every surface may use, each a name with a size, line height and weight. Writes the ``value`` and
 ``srgb`` of every colour token and the ``type.groups`` styles in tokens/tokens.json from these
@@ -64,6 +64,12 @@ CASE_SURFACE = {"light": (0.980, 0.014), "dark": (0.205, 0.014)}
 # and as text itself it holds 4.5:1 on every surface. Never alone: the icon and the words are always there.
 CONFIDENTIAL = {"light": (0.420, 0.150), "dark": (0.750, 0.120)}
 ON_CONFIDENTIAL = {"light": "bg", "dark": "ink"}   # white on the light band, the ink on the dark one
+# Tables (tokens v3.6): the header and footer band is the small step from the page, so it is the
+# surface (light) or surface-alt (dark) by alias; a hovered row is the neutral hue with a little more
+# chroma, a cool blue-grey between the band and the next surface, never a warm tint (a hue near the
+# accent's reads as an action) and never the teal (a row is not a system status).
+BAND = {"light": "surface", "dark": "surface-alt"}
+ROW_HOVER = {"light": (0.965, 0.014), "dark": (0.250, 0.028)}
 # The chart palette (tokens v3.4): four series colours, always in this order, used by charts and by
 # nothing else. Violet, ochre, sky blue, moss green: chosen for colour-blind separation in both themes,
 # with no red and no yellow-green next to each other. Ochre on white is about 2.2:1, so every chart
@@ -84,6 +90,12 @@ NEW_TOKENS = {
     "on-confidential": (
         "Text and icons on a confidential fill: white (bg) in the light theme, the ink in the dark theme "
         "(tokens v3.4)."),
+    "band": (
+        "The header and footer of a table (tokens v3.6): the small step from the page, the surface in the "
+        "light theme and surface-alt in the dark theme. Header labels stay text-dim. Never a row's colour."),
+    "row-hover": (
+        "A hovered table or list row (tokens v3.6): the neutral hue with a little more chroma, a cool "
+        "blue-grey, so it is never taken for a header and adds no hue. Never teal, never warm."),
     "chart-1": "First chart series (tokens v3.4). The same violet family as confidential. Charts only.",
     "chart-2": ("Second chart series: ochre (tokens v3.4). About 2.2:1 on white, so a chart always has a "
                 "legend and Show table. Charts only."),
@@ -237,6 +249,8 @@ def palette() -> dict[str, dict[str, dict]]:
     p["case-surface"] = {t: colour(L, C, TEAL_HUE) for t, (L, C) in CASE_SURFACE.items()}
     p["confidential"] = {t: colour(L, C, VIOLET_HUE) for t, (L, C) in CONFIDENTIAL.items()}
     p["on-confidential"] = {t: {"alias": a} for t, a in ON_CONFIDENTIAL.items()}
+    p["band"] = {t: {"alias": a} for t, a in BAND.items()}
+    p["row-hover"] = {t: colour(L, C, NEUTRAL_HUE) for t, (L, C) in ROW_HOVER.items()}
     for name, themes in CHARTS.items():
         p[name] = {t: colour(L, C, H) for t, (L, C, H) in themes.items()}
     return p
@@ -287,6 +301,9 @@ PAIRS = [
     ("accent-ink", "case-surface", 4.5), ("teal-ink", "case-surface", 4.5), ("focus", "case-surface", 3.0),
     ("on-confidential", "confidential", 4.5),
     ("confidential", "bg", 4.5), ("confidential", "surface", 4.5), ("confidential", "surface-alt", 4.5),
+    ("text", "band", 4.5), ("text-dim", "band", 4.5), ("text-dimmer", "band", 4.5), ("focus", "band", 3.0),
+    ("text", "row-hover", 4.5), ("text-dim", "row-hover", 4.5), ("text-dimmer", "row-hover", 4.5),
+    ("accent-ink", "row-hover", 4.5), ("teal-ink", "row-hover", 4.5), ("focus", "row-hover", 3.0),
 ]
 # Reported, not enforced: the chart series against the page. Charts never rely on colour alone
 # (legend, Show table), so these are informative; the guidelines say which are weak.
@@ -305,6 +322,8 @@ def contrast_table(p, pairs=None):
                 bg_rgb = blend({**teal, "alpha": 0.10}, p["bg"][theme])
             else:
                 b = p[bg][theme]
+                if "alias" in b:
+                    b = p[b["alias"]][theme]
                 bg_rgb = blend(b, p["bg"][theme])
             fg_rgb = blend(f, {"L": oklch_of_rgb(bg_rgb)[0], "C": oklch_of_rgb(bg_rgb)[1], "H": oklch_of_rgb(bg_rgb)[2]})
             rows.append((theme, fg, bg, need, ratio_oklch(fg_rgb, bg_rgb), ratio_wcag(fg_rgb, bg_rgb)))
@@ -388,11 +407,11 @@ def main() -> None:
         if min(by_l, by_wcag) < need:
             problems.append(f"{theme}: {fg} on {bg} is {by_l:.2f}:1 (OKLCH) / {by_wcag:.2f}:1 (WCAG), needs {need}:1")
     if not check:
-        data["version"] = "3.5"
+        data["version"] = "3.6"
         data["colorRules"] = ("tokens/palette.py: one neutral hue (258°), even lightness steps per theme, hover, "
                               "ink and boundary states as fixed lightness offsets on the accent's and the teal's hue, the case "
                               "surface a neutral lightness on the teal's hue, the violet (confidential, chart-1) on 300° and the "
-                              "four chart series fixed; "
+                              "four chart series fixed, the table band an alias of a surface and the row hover a neutral with a little chroma; "
                               "every colour here is written by that script, not by hand.")
         data["typeRules"] = ("tokens/palette.py TYPE_SCALE: the text styles every surface may use, by name; a "
                              "surface uses these and nothing else. Written by the script, not by hand.")

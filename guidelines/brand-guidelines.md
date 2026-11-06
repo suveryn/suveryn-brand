@@ -76,6 +76,9 @@ Verified pairs (worst case over bg, surface and surface-alt), by this measure an
 | `focus` (UI, 3:1) on bg, surface, surface-alt | ≥ 3.7:1 | ≥ 7.3:1 |
 | `confidential` as text, on bg, surface, surface-alt | 7.4:1 | 6.1:1 |
 | `on-confidential` on `confidential` | 8.5:1 | 9.0:1 |
+| `text-dimmer` on `band` (a table's header and footer) | 4.6:1 | 5.0:1 |
+| `text-dimmer`, `accent-ink`, `teal-ink` on `row-hover` | ≥ 4.5:1 | ≥ 4.8:1 |
+| `focus` (UI, 3:1) on `band`, `row-hover` | ≥ 3.8:1 | ≥ 8.3:1 |
 
 ## The palette's rules (tokens v3.1)
 
@@ -87,9 +90,19 @@ Since v3.1 no colour in `tokens.json` is picked by hand: `tokens/palette.py` hol
 
 Changing a rule changes every colour it governs, consistently; that is the point of writing the palette in OKLCH.
 
-## What each colour means (tokens v3.4)
+## What each colour means (tokens v3.6)
 
-Three colours carry meaning in the product, each one thing; everything else is ink on neutral surfaces. A colour that marks everything marks nothing.
+Three colours carry meaning in the product, each one thing; everything else is ink on neutral surfaces. A colour that marks everything marks nothing, and the interface keeps as few colours as it can: a new use of a colour fits this table, or the table changes first.
+
+| Colour | Only for | Never for |
+|---|---|---|
+| Ink and its greys (`text`, `text-dim`, `text-dimmer`, `line`, `surface`, `surface-alt`, `band`, `row-hover`) | everything else: text, borders, outlined buttons, a hovered or selected row, navigation, warnings and errors with their icon | |
+| Orange (`accent`, `accent-hover`, `accent-ink`) | the one main action of a view or dialog, *New*, send, text actions | navigation, highlighting, selection, hover |
+| Teal (`teal`, `teal-ink`, `focus`, `case-surface`) | a system status (below) and keyboard focus | highlighting a row, a selection, a hover, decoration |
+| Violet (`confidential`) | strictly confidential | anything else |
+| Chart colours (`chart-1` to `chart-4`) | inside a chart and its legend | anything outside a chart |
+
+There is no danger colour. A risky action (delete, switch off, reset) is the orange main action of its dialog like any other; the dialog's sentence says what happens, and the focus starts on *Cancel*.
 
 ### The orange: act
 
@@ -128,6 +141,10 @@ Violet is the second brand colour, on the hue 300°, for two things only:
 ### The chart palette
 
 Charts use four series colours of their own, always in this order, and nothing else uses them: `chart-1` violet, `chart-2` ochre, `chart-3` sky blue, `chart-4` moss green. They were chosen for colour-blind separation in both themes. Ochre on white is about 2.2:1, so every chart has a legend and *Show table*, and the series are never told apart by colour alone. A fifth series becomes "Other". `tokens/palette.py` prints their contrast against the page for information; it doesn't enforce it.
+
+### Tables (tokens v3.6)
+
+A table's header and its footer sit on `band`, the small step from the page (the surface in the light theme, surface-alt in the dark theme), with `text-dim` labels. Rows stay on the page colour, without stripes. A hovered row is `row-hover`: the neutral hue with a little more chroma, a cool blue-grey, so it is never taken for the header and adds no hue. A selected row has an ink bar on its left; a row that needs attention says so in ink with its icon. A row is never teal and never warm: the only teal on a row is keyboard focus.
 
 ### The case surface
 
