@@ -181,6 +181,18 @@ Every text style a surface may use is named in `tokens.json` (`type.groups`), wr
 
 In CSS the styles are variables generated from the tokens (`--text-body`, `--text-ui-sm`, and so on, each a size, with the line height and weight beside it), so a stylesheet says which style a thing has rather than how many pixels it is. Weight and colour may vary within a style (a `body-sm` at 600 is a small emphasised line; `caption` in `text-dim` is the usual metadata); size and family may not.
 
+## Spacing: a 4 px grid
+
+Every distance and size on a surface is a step of 4 px: margins, padding, gaps, offsets, and the width and height of a control, an icon tile or a column. The spacing tokens are those steps, named once (`space-1` 4 px, `space-2` 8, `space-3` 12, `space-4` 16, `space-5` 20, `space-6` 24, `space-8` 32, `space-10` 40, `space-12` 48, `space-16` 64), and a stylesheet uses a token where one exists. A size with no token (a 44 px control, a 36 px icon tile, a 28 px card padding) is still a multiple of 4.
+
+Three things are not on the grid, on purpose:
+
+- **Lines and strokes:** a 1 px border, the 1.5 px ring of a radio or checkbox, a focus ring.
+- **Optical nudges of 1 to 3 px:** a dot lowered to sit on the first line of its label, an icon raised to the text's centre.
+- **A padding one less than a step (7, 11, 15 px)** where a 1 px border makes up the rest, so the box itself stays on the grid: a 44 px field is 20 px of text, 11 px of padding and a 1 px border on each side.
+
+Type has its own scale (above), and corner radii (`radius-sm` 6 px, `radius-md` 10, `radius-lg` 14) round corners rather than space things, so neither follows the grid. When a value falls between two steps, it takes the one that is a multiple of 8 (6 becomes 8, 10 becomes 8, 14 becomes 16), unless that visibly breaks the layout. The grid holds on the boards as well as in the code, so the two measure the same (decided 8 November 2026).
+
 ## Iconography
 
 **Lucide** (ISC licence, MIT-compatible; the subset of icons derived from Feather is MIT) is the icon library for all UI chrome: navigation, buttons, status indicators. This was decided after a separate design-system export surfaced "Untitled UI" as the apparent icon set in use, which turned out to be a paid, commercially licensed kit with no confirmed rights to reuse outside its original project. What was actually doing the visual work in that export was Lucide, used as a free stand-in because it shares Untitled UI's stroke style, so Lucide became the real, permanently-adopted choice rather than chasing a licence sūveryn never had. Both licences are permissive but require the copyright and permission notice to travel with copies, so keep Lucide's licence text with any distributed copy of the icons (the site and the chat visual embed several as inline SVG).
