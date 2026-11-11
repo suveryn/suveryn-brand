@@ -4,6 +4,16 @@ The sūveryn mark, fonts, design tokens and brand guidelines. Licences differ pe
 
 Start with [guidelines/brand-guidelines.md](guidelines/brand-guidelines.md). For what sūveryn is and how it is built, the private [suveryn-handbook](https://github.com/suveryn/suveryn-handbook/blob/main/context/development-context.md#start-here), its *Start here*: the design principles, the project's words, and how a change reaches `main`.
 
+## Before you start
+
+<!-- shared: copied from suveryn-handbook/context/claude-md-shared.md; change it there, never here -->
+
+1. **Read the handbook's [*Start here*](https://github.com/suveryn/suveryn-handbook/blob/main/context/development-context.md#start-here)** before any work: the design principles, the project's words, how a change reaches `main`. If you can't open it, stop and say so. In a long session, read it again when the conversation has been summarised.
+2. **One issue, one branch, one PR.** The change has an issue in suveryn-tracker and the branch is named for it. No branch is built on an unmerged branch. A coding agent never pushes: it delivers its branch into the founder's local clone without switching that clone's branch, and only the founder pushes and merges.
+3. **Before you ask for a merge**, say which design principle the change bends, if any, and why. A bent principle needs the founder's decision in the handbook before the merge.
+
+<!-- /shared -->
+
 ## Rules
 
 - **`tokens/tokens.json` is written, never edited.** `tokens/palette.py` holds the palette's rules (OKLCH, one neutral hue, even lightness steps, hover and ink as fixed offsets) and the type scale (fourteen named styles); run it to regenerate, `--check` verifies every value and every contrast pair. CI fails if the file is stale.
