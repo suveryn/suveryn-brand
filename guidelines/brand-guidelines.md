@@ -48,9 +48,9 @@ Both themes share the same token names and the same accent colours: only the neu
 
 ## Colours are written in OKLCH
 
-Since tokens v3 every colour in `tokens.json` is an `oklch()` value (and since v3.1 every value comes from the rules in `tokens/palette.py`, see *The palette's rules* below) (CSS Color 4): lightness 0 to 1, chroma, hue in degrees, and an alpha after `/` for the translucent ones. That is what goes into CSS as it is; browsers have drawn OKLCH since 2023 (Chrome 111, Safari 15.4, Firefox 113), so no fallback is written. Beside each value, `srgb` holds the same colour as sRGB hex (with its alpha), for tools that can't read OKLCH and for anyone used to the old values; it is derived, never the source. The two are kept equal by `tokens/to_oklch.py --check`.
+Every colour in `tokens.json` is an `oklch()` value (CSS Color 4), written by the rules in `tokens/palette.py` (*The palette's rules* below): lightness 0 to 1, chroma, hue in degrees, and an alpha after `/` for the translucent ones. That is what goes into CSS as it is; browsers have drawn OKLCH since 2023 (Chrome 111, Safari 15.4, Firefox 113), so no fallback is written. Beside each value, `srgb` holds the same colour as sRGB hex (with its alpha), for tools that can't read OKLCH; it is derived, never the source. The two are kept equal by `tokens/to_oklch.py --check`.
 
-Why OKLCH: it is the space the contrast rule already reasons in. A hover state, a dimmer text level or a wash is now a change of lightness or alpha on the same hue, visibly even across the orange, the teal and the neutrals, and a future dark theme or a new accent is made the same way. Derived colours in product CSS (a wash of the teal, a shadow of the ink) are written as `oklch()` on the token's own lightness, chroma and hue with an alpha, never as a new hex.
+Why OKLCH: it is the space the contrast rule already reasons in. A hover state, a dimmer text level or a wash is a change of lightness or alpha on the same hue, visibly even across the orange, the teal and the neutrals, and a future dark theme or a new accent is made the same way. Derived colours in product CSS (a wash of the teal, a shadow of the ink) are written as `oklch()` on the token's own lightness, chroma and hue with an alpha, never as a new hex.
 
 ## The one hard contrast rule
 
@@ -73,24 +73,24 @@ Verified pairs (worst case over bg, surface and surface-alt), by this measure an
 | `teal-ink` (incl. on the 10% teal wash) | 4.6:1 | 7.3:1 |
 | `on-accent` on `accent` / `accent-hover` | 6.5:1 / 5.1:1 | 6.5:1 / 7.8:1 |
 | `control-off` (UI, 3:1) on surface-overlay, dark bg, light bg | ≥ 3.9:1 | ≥ 3.4:1 |
-| `focus` (UI, 3:1) on bg, surface (v3.7) | ≥ 3.0:1 | ≥ 7.3:1 |
+| `focus` (UI, 3:1) on bg, surface | ≥ 3.0:1 | ≥ 7.3:1 |
 | `confidential` as text, on bg, surface, surface-alt | 7.4:1 | 6.1:1 |
 | `on-confidential` on `confidential` | 8.5:1 | 9.0:1 |
 | `text-dimmer` on `band` (a table's header and footer) | 4.6:1 | 5.0:1 |
 | `text-dimmer`, `accent-ink`, `teal-ink` on `row-hover` | ≥ 4.5:1 | ≥ 4.8:1 |
 | `focus` (UI, 3:1) on `band`, `case-surface` | ≥ 3.0:1 | ≥ 9.3:1 |
 
-## The palette's rules (tokens v3.1)
+## The palette's rules
 
-Since v3.1 no colour in `tokens.json` is picked by hand: `tokens/palette.py` holds the rules and writes every value, and `--check` fails when the file and the rules disagree.
+No colour in `tokens.json` is picked by hand: `tokens/palette.py` holds the rules and writes every value, and `--check` fails when the file and the rules disagree.
 
-- **One neutral hue.** Every grey, from the ink to the white surfaces, sits on 258°, the hue of the dark surfaces (the brand's identity surface), at a small chroma. Before v3.1 the greys ranged from 245° to 286°, so a dimmed ink next to a control looked like greys from different sets.
+- **One neutral hue.** Every grey, from the ink to the white surfaces, sits on 258°, the hue of the dark surfaces (the brand's identity surface), at a small chroma, so a dimmed ink next to a control never looks like a grey from another set.
 - **Even lightness steps per theme.** Light surfaces at L 1.000, 0.980 and 0.955; dark surfaces at 0.160, 0.205 and 0.290; the ink at 0.090, the dark text at 0.967. The dim text levels stay alphas of the text, so they follow whatever surface they sit on.
-- **States are lightness offsets on the family's hue.** The accent is L 0.677 at 34.6°; its hover is −0.06 on light surfaces and +0.045 on dark ones; as text (`accent-ink`) it is −0.15 on light surfaces and +0.02 on dark ones. The teal is L 0.790 at 188.4°; as text it is −0.27 on light surfaces, and as a UI boundary (`focus`, since v3.2: the focus line and the border of a focused field) −0.15 at chroma 0.11 (since v3.7; −0.218 before), which holds the 3:1 non-text contrast on `bg`, `surface`, `band` and `case-surface`. On `surface-alt`, and on an orange or teal fill, the focus gets a 2 px gap in `bg` between the control and its line, so the line holds against the gap. Chroma is the base's, reduced only where sRGB can't show it. A future second accent is made the same way.
+- **States are lightness offsets on the family's hue.** The accent is L 0.677 at 34.6°; its hover is −0.06 on light surfaces and +0.045 on dark ones; as text (`accent-ink`) it is −0.15 on light surfaces and +0.02 on dark ones. The teal is L 0.790 at 188.4°; as text it is −0.27 on light surfaces, and as a UI boundary (`focus`: the focus line and the border of a focused field) −0.15 at chroma 0.11, which holds the 3:1 non-text contrast on `bg`, `surface`, `band` and `case-surface`. On `surface-alt`, and on an orange or teal fill, the focus gets a 2 px gap in `bg` between the control and its line, so the line holds against the gap. Chroma is the base's, reduced only where sRGB can't show it. A future second accent is made the same way.
 
 Changing a rule changes every colour it governs, consistently; that is the point of writing the palette in OKLCH.
 
-## What each colour means (tokens v3.7)
+## What each colour means
 
 Three colours carry meaning in the product, each one thing; everything else is ink on neutral surfaces. A colour that marks everything marks nothing, and the interface keeps as few colours as it can: a new use of a colour fits this table, or the table changes first.
 
@@ -142,7 +142,7 @@ Violet is the second brand colour, on the hue 300°, for two things only:
 
 Charts use four series colours of their own, always in this order, and nothing else uses them: `chart-1` violet, `chart-2` ochre, `chart-3` sky blue, `chart-4` moss green. They were chosen for colour-blind separation in both themes. Ochre on white is about 2.2:1, so every chart has a legend and *Show table*, and the series are never told apart by colour alone. A fifth series becomes "Other". `tokens/palette.py` prints their contrast against the page for information; it doesn't enforce it.
 
-### Tables (tokens v3.6)
+### Tables
 
 A table's header and its footer sit on `band`, the small step from the page (the surface in the light theme, surface-alt in the dark theme), with `text-dim` labels. Rows stay on the page colour, without stripes. A hovered row is `row-hover`: the neutral hue with a little more chroma, a cool blue-grey, so it is never taken for the header and adds no hue. A selected row has an ink bar on its left; a row that needs attention says so in ink with its icon. A row is never teal and never warm: the only teal on a row is keyboard focus.
 
@@ -156,11 +156,11 @@ Three families, three distinct jobs, never swapped:
 
 - **Space Grotesk**: headings and display text. Tested directly against IBM Plex Sans (the mono's own sibling family) for full tonal consistency with the wordmark, and deliberately kept: Space Grotesk's rounder, slightly more characterful letterforms read as a touch more approachable than the otherwise serious palette, which was judged a feature, not a drift from the brand.
 - **Inter**: all body copy and UI text. The workhorse. Everything that isn't a heading or the wordmark.
-- **IBM Plex Mono**: the wordmark, and only the wordmark. Originally JetBrains Mono; switched to IBM Plex Mono for slightly more open spacing at small sizes. Using this font anywhere else (labels, body copy, code blocks) is a brand violation, not a style choice.
+- **IBM Plex Mono**: the wordmark, and only the wordmark. Chosen over JetBrains Mono for its slightly more open spacing at small sizes. Using this font anywhere else (labels, body copy, code blocks) is a brand violation, not a style choice.
 
-### The type scale (tokens v3.2)
+### The type scale
 
-Every text style a surface may use is named in `tokens.json` (`type.groups`), written by `tokens/palette.py` from `TYPE_SCALE`, and checked by `--check`. A surface uses these and nothing else: no size that isn't on this list. Before v3.2 the brand named seven styles, and the chat UI, the appliance's setup page, the login page and the website each filled the gaps on their own (eighteen sizes in the chat UI, fourteen on the site, buttons at a size the brand didn't name on all three); these fourteen are the styles those surfaces turned out to need, named once.
+Every text style a surface may use is named in `tokens.json` (`type.groups`), written by `tokens/palette.py` from `TYPE_SCALE`, and checked by `--check`. A surface uses these and nothing else: no size that isn't on this list. These fourteen are the styles the chat UI, the appliance's setup page, the login page and the website need, named once.
 
 | Style | Family | Size | Line height | Weight | Used for |
 |---|---|---|---|---|---|
@@ -199,7 +199,7 @@ Type has its own scale (above), and corner radii (`radius-sm` 6 px, `radius-md` 
 
 The brand mark itself (below) is not from Lucide and is never swapped for a generic icon.
 
-### Overlay icons (tokens v3.5)
+### Overlay icons
 
 A small icon over the corner of another says one thing about it: the system speaks for a playbook, a
 person is an administrator or manages a case, a conversation was shared. Every overlay follows one rule, so they read
@@ -252,4 +252,4 @@ File attachments belong with the message that introduces them (the user's turn),
 
 ## Further reading
 
-The full reasoning behind every decision summarised here (the naming history, the competitive landscape, the commercial model, the open items) lives in the Sūveryn Strategic Plan document, not duplicated here. This README documents the system as built; that document explains why.
+The full reasoning behind the decisions summarised here (the naming history, the competitive landscape, the commercial model, the open items) is in sūveryn's strategic plan, a private document. This page documents the system as built.
