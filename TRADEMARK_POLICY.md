@@ -1,19 +1,23 @@
 # Sūveryn Trademark Policy
 
-**Last updated:** 11 October 2026
+**Last updated:** 18 November 2026
 
 ## 1. What this policy covers
 
-"Sūveryn," "Sūveryn Open," and "Sūveryn Enterprise" (the "Marks"), along with the
+"Sūveryn", "Sūveryn Open" and "Sūveryn Enterprise" (the "Marks"), along with the
 sūveryn wordmark, logo mark, and associated visual identity (together, the
-"Brand Assets"), are trademarks of Sūveryn Labs Ltd ("we," "us"). This
+"Brand Assets"), are trademarks of Sūveryn Labs Ltd ("we", "us"). This
 policy explains how you may and may not use them.
 
-This policy is separate from, and not affected by, the open source licence
-(AGPL-3.0) applied to sūveryn's source code. **An open source licence grants
+This policy is separate from, and not affected by, the open-source licences
+applied to sūveryn's source code: AGPL-3.0-or-later for suveryn-core;
+Apache-2.0 for suveryn-appliance, suveryn-connector-sdk,
+suveryn-connectors-registry and the benchmark scripts in suveryn-docs; MIT for
+the token scripts in this repository's `tokens/`. Each repository's or
+folder's `LICENSE` file governs. **An open-source licence grants
 rights to the code. It does not grant any licence, right, or permission to
 use the sūveryn name, logo, or other Brand Assets.** This mirrors the
-approach taken by Mozilla, WordPress, Blender, and most other open source
+approach taken by Mozilla, WordPress, Blender, and most other open-source
 projects with a protected brand.
 
 ## 2. Copyright notice
@@ -27,29 +31,28 @@ derivative works from these files.
 
 The design tokens in `tokens/` are licensed separately under the MIT licence
 (`tokens/LICENSE`), so software that uses them, including forks of Sūveryn
-Open, may keep them. That licence covers the token values only; it grants no
-right to the Marks or the logo.
+Open, may keep them. That licence grants no right to the Marks or the logo.
 
-## 3. Permitted uses — no permission needed
+## 3. Permitted uses: no permission needed
 
 You may, without asking us first:
 
 - State factually that your deployment, integration, or fork is "built on
-  Sūveryn Open" or "powered by sūveryn," provided the statement is accurate
+  Sūveryn Open" or "powered by sūveryn", provided the statement is accurate
   and not presented in a way that implies our endorsement, partnership, or
   certification.
 - Use the unmodified sūveryn wordmark or logo, at its original proportions,
   in editorial, news, academic, or review contexts to refer to sūveryn
   itself (e.g., a blog post comparing AI platforms).
 - Quote our brand guidelines or documentation text under the terms of the
-  separate CC BY 4.0 content licence (see `CONTENT_LICENSE`).
+  separate CC BY 4.0 content licence (see `CONTENT_LICENSE.md`).
 
 ## 4. Uses that require our written permission
 
 - Using the Marks or logo as the name or branding of your own product,
-  company, service, or fork — including a modified or "friendly forked"
+  company, service, or fork, including a modified or "friendly forked"
   version of Sūveryn Open.
-- Modifying, distorting, recoloring, or combining the logo with other marks.
+- Modifying, distorting, recolouring, or combining the logo with other marks.
 - Using the Marks in a domain name, social media handle, or app store
   listing name.
 - Any use that suggests sponsorship, endorsement, certification, or an
@@ -61,20 +64,20 @@ To request permission, contact trademark@suveryn.com.
 ## 5. Forks and derivative software
 
 You are free to fork Sūveryn Open's source code under the terms of its
-AGPL-3.0 licence. You are not free to call your fork "sūveryn," "Sūveryn
-Open," or a confusingly similar name, or to ship it with our logo or wordmark
+open-source licences. You are not free to call your fork "sūveryn", "Sūveryn
+Open" or a confusingly similar name, or to ship it with our logo or wordmark
 attached. Please choose your own name and identity for a fork and may note,
-factually, that it is "based on Sūveryn Open."
+factually, that it is "based on Sūveryn Open".
 
 ## 6. Enforcement and changes
 
 We may update this policy from time to time; material changes will be noted
 with a new "Last updated" date. We reserve the right to revoke permissions
 granted under Section 3 for any party that misuses the Marks, independent of
-any rights that party holds under the AGPL-3.0 licence to the underlying
-code.
+any rights that party holds under the open-source licences of the
+underlying code.
 
 ## 7. No warranty
 
-Brand Assets are provided "as is." We make no warranty regarding their
+Brand Assets are provided "as is". We make no warranty regarding their
 fitness for any particular use.
