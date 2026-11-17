@@ -1,9 +1,9 @@
-# sūveryn-brand
+# suveryn-brand
 
 Website: [suveryn.com](https://www.suveryn.com)
 
 Logo: all rights reserved, see [TRADEMARK_POLICY.md](TRADEMARK_POLICY.md).
-Design tokens: MIT, see [tokens/LICENSE](tokens/LICENSE).
+Design tokens: MIT, so the AGPL core and anyone else can copy them, see [tokens/LICENSE](tokens/LICENSE).
 Fonts: third-party, each under its own SIL Open Font Licence, see the OFL.txt beside each font.
 Guidelines content: CC BY 4.0, see [CONTENT_LICENSE.md](CONTENT_LICENSE.md).
 
