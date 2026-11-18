@@ -17,7 +17,7 @@ It does **not** apply to the following, which each have their own terms:
 - the contents of `tokens/` (the design tokens file): MIT, see
   `tokens/LICENSE`;
 - the contents of `fonts/`: third-party fonts, each under the SIL Open Font
-  Licence in the `OFL.txt` beside it. Sūveryn Labs Ltd. holds no rights in
+  Licence in the `OFL.txt` beside it. Sūveryn Labs Ltd holds no rights in
   them.
 
 ## Licence: CC BY 4.0
@@ -25,7 +25,7 @@ It does **not** apply to the following, which each have their own terms:
 The in-scope content listed above is licensed under the **Creative Commons
 Attribution 4.0 International License (CC BY 4.0)**.
 
-> © 2026–present Sūveryn Labs Ltd.
+> © 2026–present Sūveryn Labs Ltd
 >
 > This work is licensed under CC BY 4.0. To view a copy of this license,
 > visit https://creativecommons.org/licenses/by/4.0/ or send a letter to
@@ -33,13 +33,13 @@ Attribution 4.0 International License (CC BY 4.0)**.
 
 In short, under CC BY 4.0 you are free to:
 
-- **Share** — copy and redistribute the material in any medium or format
-- **Adapt** — remix, transform, and build upon the material
+- **Share:** copy and redistribute the material in any medium or format
+- **Adapt:** remix, transform, and build upon the material
 
 for any purpose, even commercially, as long as you:
 
-- **Give appropriate credit** — e.g. "Brand guidelines content from sūveryn
-  (suveryn-brand), licensed under CC BY 4.0," with a link back to this
+- **Give appropriate credit**, e.g. "Brand guidelines content from sūveryn
+  (suveryn-brand), licensed under CC BY 4.0", with a link back to this
   repository
 - Indicate if changes were made
 - Do not suggest Sūveryn Labs Ltd endorses you or your use
@@ -51,7 +51,7 @@ case of any conflict with this summary: https://creativecommons.org/licenses/by/
 ## Why CC BY, not CC BY-SA
 
 CC BY (not CC BY-SA / "share-alike") was chosen deliberately so that
-partners and integrators can quote this material in their own documentation
-— including proprietary onboarding docs — without a share-alike obligation
+partners and integrators can quote this material in their own documentation,
+including proprietary onboarding docs, without a share-alike obligation
 following them. Attribution is required; relicensing their own surrounding
 material is not.
